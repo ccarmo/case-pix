@@ -3,8 +3,11 @@ package com.pix.poc.interactors.web.controller;
 import com.pix.poc.application.usecase.CreatePixUseCase;
 
 
+import com.pix.poc.domain.entities.Pix;
 import com.pix.poc.interactors.web.dto.request.CreatePixRequest;
+import com.pix.poc.interactors.web.dto.request.PixFilterRequest;
 import com.pix.poc.interactors.web.dto.response.ResponsePixCustom;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,5 +24,10 @@ public class PixController {
     public ResponsePixCustom createPix(@RequestBody CreatePixRequest createPixRequest) {
         createPixUseCase.createPix(createPixRequest.toPix());
         return ResponsePixCustom.success("Pix cadastrado com sucesso");
+    }
+
+    @GetMapping
+    public Pix get(@Valid PixFilterRequest filterRequest) {
+        return null;
     }
 }
