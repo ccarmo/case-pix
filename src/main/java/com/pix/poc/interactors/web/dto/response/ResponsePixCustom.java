@@ -1,18 +1,21 @@
 package com.pix.poc.interactors.web.dto.response;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
-public class ResponsePixCustom {
+public class ResponsePixCustom<T> {
 
     private ResponseType type;
     private List<String> reasons;
     private LocalDateTime timestamp;
+    private List<T> result;
 
-    public ResponsePixCustom(ResponseType type, List<String> reasons) {
+    public ResponsePixCustom(ResponseType type, List<String> reasons, List<T> result) {
         this.type = type;
         this.reasons = reasons;
         this.timestamp = LocalDateTime.now();
+        this.result = result != null ? result : Collections.emptyList();
     }
 
     public ResponseType getType() {
@@ -39,11 +42,28 @@ public class ResponsePixCustom {
         this.timestamp = timestamp;
     }
 
-    public static ResponsePixCustom success(String reason) {
-        return new ResponsePixCustom(ResponseType.SUCCESS, List.of(reason));
+    public List<T> getResult() {
+        return result;
     }
 
-    public static ResponsePixCustom error(String reason) {
-        return new ResponsePixCustom(ResponseType.ERROR, List.of(reason));
+    public void setResult(List<T> result) {
+        this.result = result != null ? result : Collections.emptyList();
+    }
+
+
+    public static <T> ResponsePixCustom<T> success(String reason) {
+        return new ResponsePixCustom<>(ResponseType.SUCCESS, List.of(reason), Collections.emptyList());
+    }
+
+    public static <T> ResponsePixCustom<T> success(List<T> result) {
+        return new ResponsePixCustom<>(ResponseType.SUCCESS, List.of("Operação realizada com sucesso"), result);
+    }
+
+    public static <T> ResponsePixCustom<T> error(String reason) {
+        return new ResponsePixCustom<>(ResponseType.ERROR, List.of(reason), Collections.emptyList());
+    }
+
+    public static <T> ResponsePixCustom<T> error(List<String> reasons) {
+        return new ResponsePixCustom<>(ResponseType.ERROR, reasons, Collections.emptyList());
     }
 }

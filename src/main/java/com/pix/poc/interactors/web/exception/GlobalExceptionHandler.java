@@ -1,5 +1,6 @@
 package com.pix.poc.interactors.web.exception;
 
+import com.pix.poc.domain.exception.PixNotFoundException;
 import com.pix.poc.domain.exception.ValidationException;
 
 import com.pix.poc.interactors.web.dto.response.ResponsePixCustom;
@@ -50,5 +51,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ResponsePixCustom.error("Erro inesperado. Tente novamente mais tarde."));
+    }
+
+    @ExceptionHandler(PixNotFoundException.class)
+    public ResponseEntity<ResponsePixCustom> handleNotFound(PixNotFoundException ex) {
+        log.warn("Recurso não encontrado: {}", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ResponsePixCustom.error(ex.getMessage()));
     }
 }
