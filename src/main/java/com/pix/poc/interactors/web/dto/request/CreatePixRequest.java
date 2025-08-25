@@ -7,9 +7,13 @@ import com.pix.poc.domain.entities.Pix;
 import com.pix.poc.domain.entities.PixType;
 import com.pix.poc.domain.vo.AccountNumber;
 import com.pix.poc.domain.vo.AgencyNumber;
+import com.pix.poc.domain.vo.Document;
 import com.pix.poc.domain.vo.PixValue;
 
 public class CreatePixRequest {
+
+    @JsonProperty("documentNumber")
+    private String documentNumber;
 
     @JsonProperty("accountNumber")
     private Integer accountNumber;
@@ -34,6 +38,7 @@ public class CreatePixRequest {
     public Pix toPix() {
 
         Account account = new Account.Builder()
+                .document(new Document(documentNumber))
                 .accountType(AccountType.valueOfOrThrow(this.accountType))
                 .accountNumber(new AccountNumber(this.accountNumber))
                 .agencyNumber(new AgencyNumber(this.agencyNumber))

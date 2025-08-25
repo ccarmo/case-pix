@@ -1,5 +1,6 @@
 package com.pix.poc.interactors.web.exception;
 
+import com.pix.poc.domain.exception.InvalidMaxValueCpfException;
 import com.pix.poc.domain.exception.PixNotFoundException;
 import com.pix.poc.domain.exception.ValidationException;
 
@@ -58,6 +59,13 @@ public class GlobalExceptionHandler {
         log.warn("Recurso não encontrado: {}", ex.getMessage());
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
+                .body(ResponsePixCustom.error(ex.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidMaxValueCpfException.class)
+    public ResponseEntity<ResponsePixCustom> handleMaxValueCpf(InvalidMaxValueCpfException ex) {
+        return ResponseEntity
+                .status(HttpStatus.UNPROCESSABLE_ENTITY)
                 .body(ResponsePixCustom.error(ex.getMessage()));
     }
 }

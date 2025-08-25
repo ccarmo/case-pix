@@ -2,9 +2,11 @@ package com.pix.poc.domain.entities;
 
 import com.pix.poc.domain.vo.AccountNumber;
 import com.pix.poc.domain.vo.AgencyNumber;
+import com.pix.poc.domain.vo.Document;
 
 public class Account {
 
+    private Document document;
     private AccountType accountType;
     private AccountNumber accountNumber;
     private AgencyNumber agencyNumber;
@@ -12,6 +14,7 @@ public class Account {
     private String lastName;
 
     private Account(Builder builder) {
+        this.document = builder.document;
         this.accountType = builder.accountType;
         this.accountNumber = builder.accountNumber;
         this.agencyNumber = builder.agencyNumber;
@@ -20,11 +23,17 @@ public class Account {
     }
 
     public static class Builder {
+        private Document document;
         private AccountType accountType;
         private AccountNumber accountNumber;
         private AgencyNumber agencyNumber;
         private String name;
         private String lastName;
+
+        public Builder document(Document document) {
+            this.document = document;
+            return this;
+        }
 
         public Builder accountType(AccountType accountType) {
             this.accountType = accountType;
@@ -74,5 +83,9 @@ public class Account {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public Document getDocument() {
+        return document;
     }
 }

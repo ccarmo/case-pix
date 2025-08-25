@@ -4,7 +4,7 @@ import com.pix.poc.application.usecase.CreatePixUseCase;
 
 
 import com.pix.poc.application.usecase.GetPixUseCase;
-import com.pix.poc.domain.entities.Pix;
+
 import com.pix.poc.interactors.web.dto.request.CreatePixRequest;
 import com.pix.poc.interactors.web.dto.request.PixFilterRequest;
 import com.pix.poc.interactors.web.dto.response.GetPixResponse;

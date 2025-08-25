@@ -35,6 +35,14 @@ public class Document {
         this.value = value;
     }
 
+    public String getValue() {
+        return value;
+    }
+
+    public DocumentType getType() {
+        return type;
+    }
+
     private boolean isValidCPF(String cpf) {
         return cpf.matches("\\d{11}");
     }
