@@ -43,8 +43,12 @@ public class CreatePixRequest {
 
         PixValue pixValueDomain = new PixValue(this.pixValue, pixTypeDomain);
 
+        return new Pix.Builder()
+                .account(account)
+                .pixType(pixTypeDomain)
+                .pixValue(pixValueDomain)
+                .build();
 
-        return new Pix(account,pixTypeDomain,pixValueDomain);
     }
 
 
