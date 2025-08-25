@@ -12,13 +12,13 @@ import com.pix.poc.domain.vo.PixValue;
 public class CreatePixRequest {
 
     @JsonProperty("accountNumber")
-    private String accountNumber;
+    private Integer accountNumber;
 
     @JsonProperty("accountType")
     private String accountType;
 
     @JsonProperty("agencyNumber")
-    private String agencyNumber;
+    private Integer agencyNumber;
     @JsonProperty("nameClient")
     private String nameClient;
 
