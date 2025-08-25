@@ -31,13 +31,16 @@ public class ResponseInterceptor implements ResponseBodyAdvice<Object> {
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest request,
                                   ServerHttpResponse response) {
-        if (body instanceof ResponsePixCustom dto) {
-            if (dto.getTimestamp() == null) {
-                dto.setTimestamp(java.time.LocalDateTime.now());
-            }
 
-            if (dto.getType() == ResponseType.SUCCESS) {
-                log.info("Request successful: {}", dto.getTimestamp());
+        if (request.getURI().getPath().startsWith("/pix")) {
+            if (body instanceof ResponsePixCustom dto) {
+                if (dto.getTimestamp() == null) {
+                    dto.setTimestamp(java.time.LocalDateTime.now());
+                }
+
+                if (dto.getType() == ResponseType.SUCCESS) {
+                    log.info("Request successful: {}", dto.getTimestamp());
+                }
             }
         }
 

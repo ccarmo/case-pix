@@ -9,5 +9,11 @@ public class AgencyNumber {
         if (value == null || value.isBlank()) {
             throw new InvalidLengthAccountNumberException("Numero de agencia invalido. Máximo de 4 caracteres");
         }
+
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
     }
 }

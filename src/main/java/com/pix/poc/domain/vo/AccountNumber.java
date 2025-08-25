@@ -15,5 +15,7 @@ public class AccountNumber {
         this.value = value;
     }
 
-
+    public String getValue() {
+        return value;
+    }
 }

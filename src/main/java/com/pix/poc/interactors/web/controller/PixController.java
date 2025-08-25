@@ -1,4 +1,4 @@
-package com.pix.poc.interactors.controller;
+package com.pix.poc.interactors.web.controller;
 
 import com.pix.poc.application.usecase.CreatePixUseCase;
 

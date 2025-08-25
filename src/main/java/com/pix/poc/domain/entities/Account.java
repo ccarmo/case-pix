@@ -39,4 +39,16 @@ public class Account {
             return new Account(this);
         }
     }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public AgencyNumber getAgencyNumber() {
+        return agencyNumber;
+    }
+
+    public AccountNumber getAccountNumber() {
+        return accountNumber;
+    }
 }

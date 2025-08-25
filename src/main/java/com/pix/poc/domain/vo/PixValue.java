@@ -7,8 +7,10 @@ public class PixValue {
     private String value;
 
     public PixValue(String value, PixType pixType) {
-
+        this.value = value;
     }
 
-
+    public String getValue() {
+        return value;
+    }
 }

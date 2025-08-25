@@ -19,7 +19,6 @@ public class CreatePixRequest {
 
     @JsonProperty("agencyNumber")
     private String agencyNumber;
-
     @JsonProperty("nameClient")
     private String nameClient;
 
