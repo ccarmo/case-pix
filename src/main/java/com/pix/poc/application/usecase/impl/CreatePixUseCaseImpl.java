@@ -12,6 +12,7 @@ import com.pix.poc.domain.repository.PixRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CreatePixUseCaseImpl implements CreatePixUseCase {
@@ -25,7 +26,7 @@ public class CreatePixUseCaseImpl implements CreatePixUseCase {
     }
 
     @Override
-    public void createPix(Pix pix) {
+    public String createPix(Pix pix) {
         List<Account> accountList = accountRepository.getAccountsByDocument(pix.getAccount().getDocument());
         Long count = pixRepository.countPixByAccounts(accountList);
 
@@ -37,7 +38,8 @@ public class CreatePixUseCaseImpl implements CreatePixUseCase {
             throw new InvalidMaxValueCnpjException("Cliente possui mais de 20 pix cadastros para pessoa jurídica");
         }
 
+        UUID uuid = pixRepository.save(pix);
+        return uuid.toString();
 
-        pixRepository.save(pix);
     }
 }

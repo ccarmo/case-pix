@@ -28,8 +28,8 @@ public class PixController {
 
     @PostMapping
     public ResponsePixCustom createPix(@RequestBody CreatePixRequest createPixRequest) {
-        createPixUseCase.createPix(createPixRequest.toPix());
-        return ResponsePixCustom.success("Pix cadastrado com sucesso");
+        String uuidString = createPixUseCase.createPix(createPixRequest.toPix());
+        return ResponsePixCustom.success(List.of(uuidString));
     }
 
     @GetMapping
