@@ -34,7 +34,7 @@ public class CreatePixUseCaseImpl implements CreatePixUseCase {
             throw new InvalidMaxValueCpfException("Cliente possui mais de 5 pix cadastros para pessoa física");
         }
 
-        if (pix.getAccount().getDocument().getType().equals(DocumentType.CNPJ) && count > 5) {
+        if (pix.getAccount().getDocument().getType().equals(DocumentType.CNPJ) && count > 20) {
             throw new InvalidMaxValueCnpjException("Cliente possui mais de 20 pix cadastros para pessoa jurídica");
         }
 
