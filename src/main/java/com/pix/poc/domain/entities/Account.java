@@ -13,6 +13,15 @@ public class Account {
     private String name;
     private String lastName;
 
+    public Account(Document document, String lastName, String name, AgencyNumber agencyNumber, AccountNumber accountNumber, AccountType accountType) {
+        this.document = document;
+        this.lastName = lastName;
+        this.name = name;
+        this.agencyNumber = agencyNumber;
+        this.accountNumber = accountNumber;
+        this.accountType = accountType;
+    }
+
     private Account(Builder builder) {
         this.document = builder.document;
         this.accountType = builder.accountType;
@@ -87,5 +96,29 @@ public class Account {
 
     public Document getDocument() {
         return document;
+    }
+
+    public void setDocument(Document document) {
+        this.document = document;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAgencyNumber(AgencyNumber agencyNumber) {
+        this.agencyNumber = agencyNumber;
+    }
+
+    public void setAccountNumber(AccountNumber accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 }

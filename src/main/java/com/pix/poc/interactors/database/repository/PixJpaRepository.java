@@ -42,4 +42,5 @@ public interface PixJpaRepository extends JpaRepository<PixModel, String> {
     WHERE p.account.id IN :accountIds
    """)
    Long countPixByAccounts(@Param("accountIds") List<AccountId> accountIds);
+
 }

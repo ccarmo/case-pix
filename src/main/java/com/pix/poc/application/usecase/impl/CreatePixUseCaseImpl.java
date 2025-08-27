@@ -1,16 +1,21 @@
 package com.pix.poc.application.usecase.impl;
 
 import com.pix.poc.application.usecase.CreatePixUseCase;
-import com.pix.poc.domain.entities.Account;
-import com.pix.poc.domain.entities.DocumentType;
-import com.pix.poc.domain.entities.Pix;
+import com.pix.poc.domain.entities.*;
 
 import com.pix.poc.domain.exception.InvalidMaxValueCnpjException;
 import com.pix.poc.domain.exception.InvalidMaxValueCpfException;
 import com.pix.poc.domain.repository.AccountRepository;
 import com.pix.poc.domain.repository.PixRepository;
+import com.pix.poc.domain.vo.AccountNumber;
+import com.pix.poc.domain.vo.AgencyNumber;
+import com.pix.poc.domain.vo.Document;
+import com.pix.poc.domain.vo.PixValue;
+import com.pix.poc.interactors.web.dto.request.CreatePixRequest;
+import com.pix.poc.interactors.web.dto.response.SavePixResponse;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,20 +31,42 @@ public class CreatePixUseCaseImpl implements CreatePixUseCase {
     }
 
     @Override
-    public String createPix(Pix pix) {
-        List<Account> accountList = accountRepository.getAccountsByDocument(pix.getAccount().getDocument());
+    public SavePixResponse createPix(CreatePixRequest createPixRequest) {
+        Document document = new Document(createPixRequest.documentNumber());
+        List<Account> accountList = accountRepository.getAccountsByDocument(document);
         Long count = pixRepository.countPixByAccounts(accountList);
 
-        if (pix.getAccount().getDocument().getType().equals(DocumentType.CPF) && count > 5) {
+        if (document.getType().equals(DocumentType.CPF) && count > 5) {
             throw new InvalidMaxValueCpfException("Cliente possui mais de 5 pix cadastros para pessoa física");
         }
 
-        if (pix.getAccount().getDocument().getType().equals(DocumentType.CNPJ) && count > 20) {
+        if (document.getType().equals(DocumentType.CNPJ) && count > 20) {
             throw new InvalidMaxValueCnpjException("Cliente possui mais de 20 pix cadastros para pessoa jurídica");
         }
 
-        UUID uuid = pixRepository.save(pix);
-        return uuid.toString();
+        Account account = new Account.Builder()
+                .document(document)
+                .accountType(AccountType.valueOfOrThrow(createPixRequest.accountType()))
+                .accountNumber(new AccountNumber(createPixRequest.accountNumber()))
+                .agencyNumber(new AgencyNumber(createPixRequest.agencyNumber()))
+                .build();
+
+        PixType pixTypeDomain = PixType.valueOf(createPixRequest.pixType());
+
+        PixValue pixValueDomain = new PixValue(createPixRequest.pixType(), pixTypeDomain);
+
+        Pix pix = new Pix.Builder()
+                .account(account)
+                .pixType(pixTypeDomain)
+                .pixValue(pixValueDomain)
+                .active(true)
+                .inclusionDate(LocalDate.now())
+                .build();
+
+
+        Pix pixSaved = pixRepository.save(pix);
+
+        return SavePixResponse.from(pixSaved.getUniqueID(), pixSaved.getInclusionDate(), pixSaved.getInactivationDate());
 
     }
 }

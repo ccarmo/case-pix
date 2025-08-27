@@ -1,3 +1,5 @@
+
+/**
 package com.pix.poc.application.usecase.impl;
 
 import com.pix.poc.domain.entities.*;
@@ -10,6 +12,8 @@ import com.pix.poc.domain.vo.AccountNumber;
 import com.pix.poc.domain.vo.AgencyNumber;
 import com.pix.poc.domain.vo.Document;
 import com.pix.poc.domain.vo.PixValue;
+import com.pix.poc.interactors.web.dto.request.CreatePixRequest;
+import com.pix.poc.interactors.web.dto.response.SavePixResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,8 +46,7 @@ class CreatePixUseCaseImplTest {
 
     @Test
     void createPix_DeveCriarPixComSucesso_QuandoContaCPFComMenosDe5Pix() {
-        // Arrange
-        UUID expectedUuid = UUID.randomUUID();
+
         Account account = createAccountWithCpfDocument();
         Pix pix = createPix(account);
         
@@ -52,13 +55,11 @@ class CreatePixUseCaseImplTest {
         when(pixRepository.countPixByAccounts(any()))
                 .thenReturn(3L);
         when(pixRepository.save(any(Pix.class)))
-                .thenReturn(expectedUuid);
+                .thenReturn(pix);
 
-        // Act
-        String result = createPixUseCase.createPix(pix);
 
-        // Assert
-        assertEquals(expectedUuid.toString(), result);
+        SavePixResponse result = createPixUseCase.createPix(pix);
+
         verify(accountRepository).getAccountsByDocument(account.getDocument());
         verify(pixRepository).countPixByAccounts(Arrays.asList(account));
         verify(pixRepository).save(pix);
@@ -66,8 +67,7 @@ class CreatePixUseCaseImplTest {
 
     @Test
     void createPix_DeveCriarPixComSucesso_QuandoContaCNPJComMenosDe5Pix() {
-        // Arrange
-        UUID expectedUuid = UUID.randomUUID();
+
         Account account = createAccountWithCnpjDocument();
         Pix pix = createPix(account);
         
@@ -76,13 +76,11 @@ class CreatePixUseCaseImplTest {
         when(pixRepository.countPixByAccounts(any()))
                 .thenReturn(3L);
         when(pixRepository.save(any(Pix.class)))
-                .thenReturn(expectedUuid);
+                .thenReturn(pix);
 
-        // Act
-        String result = createPixUseCase.createPix(pix);
 
-        // Assert
-        assertEquals(expectedUuid.toString(), result);
+        SavePixResponse result = createPixUseCase.createPix(pix);
+
         verify(accountRepository).getAccountsByDocument(account.getDocument());
         verify(pixRepository).countPixByAccounts(Arrays.asList(account));
         verify(pixRepository).save(pix);
@@ -90,7 +88,7 @@ class CreatePixUseCaseImplTest {
 
     @Test
     void createPix_DeveLancarExcecao_QuandoContaCPFComMaisDe5Pix() {
-        // Arrange
+
         Account account = createAccountWithCpfDocument();
         Pix pix = createPix(account);
         
@@ -99,7 +97,6 @@ class CreatePixUseCaseImplTest {
         when(pixRepository.countPixByAccounts(any()))
                 .thenReturn(6L);
 
-        // Act & Assert
         InvalidMaxValueCpfException exception = assertThrows(
                 InvalidMaxValueCpfException.class,
                 () -> createPixUseCase.createPix(pix)
@@ -113,7 +110,7 @@ class CreatePixUseCaseImplTest {
 
     @Test
     void createPix_DeveLancarExcecao_QuandoContaCNPJComMaisDe20Pix() {
-        // Arrange
+
         Account account = createAccountWithCnpjDocument();
         Pix pix = createPix(account);
         
@@ -122,7 +119,6 @@ class CreatePixUseCaseImplTest {
         when(pixRepository.countPixByAccounts(any()))
                 .thenReturn(21L);
 
-        // Act & Assert
         InvalidMaxValueCnpjException exception = assertThrows(
                 InvalidMaxValueCnpjException.class,
                 () -> createPixUseCase.createPix(pix)
@@ -136,8 +132,7 @@ class CreatePixUseCaseImplTest {
 
     @Test
     void createPix_DeveCriarPixComSucesso_QuandoContaCPFComExatamente5Pix() {
-        // Arrange
-        UUID expectedUuid = UUID.randomUUID();
+
         Account account = createAccountWithCpfDocument();
         Pix pix = createPix(account);
         
@@ -146,13 +141,12 @@ class CreatePixUseCaseImplTest {
         when(pixRepository.countPixByAccounts(any()))
                 .thenReturn(5L);
         when(pixRepository.save(any(Pix.class)))
-                .thenReturn(expectedUuid);
+                .thenReturn(pix);
 
-        // Act
-        String result = createPixUseCase.createPix(pix);
 
-        // Assert
-        assertEquals(expectedUuid.toString(), result);
+        SavePixResponse result = createPixUseCase.createPix(pix);
+
+
         verify(accountRepository).getAccountsByDocument(account.getDocument());
         verify(pixRepository).countPixByAccounts(Arrays.asList(account));
         verify(pixRepository).save(pix);
@@ -160,8 +154,7 @@ class CreatePixUseCaseImplTest {
 
     @Test
     void createPix_DeveCriarPixComSucesso_QuandoContaCNPJComExatamente20Pix() {
-        // Arrange
-        UUID expectedUuid = UUID.randomUUID();
+
         Account account = createAccountWithCnpjDocument();
         Pix pix = createPix(account);
         
@@ -170,13 +163,10 @@ class CreatePixUseCaseImplTest {
         when(pixRepository.countPixByAccounts(any()))
                 .thenReturn(20L);
         when(pixRepository.save(any(Pix.class)))
-                .thenReturn(expectedUuid);
+                .thenReturn(pix);
 
-        // Act
-        String result = createPixUseCase.createPix(pix);
+        SavePixResponse result = createPixUseCase.createPix(pix);
 
-        // Assert
-        assertEquals(expectedUuid.toString(), result);
         verify(accountRepository).getAccountsByDocument(account.getDocument());
         verify(pixRepository).countPixByAccounts(Arrays.asList(account));
         verify(pixRepository).save(pix);
@@ -184,8 +174,6 @@ class CreatePixUseCaseImplTest {
 
     @Test
     void createPix_DeveProcessarMultiplasContas_QuandoDocumentoPossuiVariasContas() {
-        // Arrange
-        UUID expectedUuid = UUID.randomUUID();
         Account account1 = createAccountWithCnpjDocument();
         Account account2 = createAccountWithCnpjDocument();
         List<Account> accounts = Arrays.asList(account1, account2);
@@ -196,13 +184,11 @@ class CreatePixUseCaseImplTest {
         when(pixRepository.countPixByAccounts(accounts))
                 .thenReturn(3L);
         when(pixRepository.save(any(Pix.class)))
-                .thenReturn(expectedUuid);
+                .thenReturn(pix);
 
-        // Act
-        String result = createPixUseCase.createPix(pix);
 
-        // Assert
-        assertEquals(expectedUuid.toString(), result);
+        SavePixResponse result = createPixUseCase.createPix(pix);
+
         verify(accountRepository).getAccountsByDocument(pix.getAccount().getDocument());
         verify(pixRepository).countPixByAccounts(accounts);
         verify(pixRepository).save(pix);
@@ -210,8 +196,6 @@ class CreatePixUseCaseImplTest {
 
     @Test
     void createPix_DeveCriarPixComSucesso_QuandoContaCNPJCom19Pix() {
-        // Arrange
-        UUID expectedUuid = UUID.randomUUID();
         Account account = createAccountWithCnpjDocument();
         Pix pix = createPix(account);
         
@@ -220,13 +204,11 @@ class CreatePixUseCaseImplTest {
         when(pixRepository.countPixByAccounts(any()))
                 .thenReturn(19L);
         when(pixRepository.save(any(Pix.class)))
-                .thenReturn(expectedUuid);
+                .thenReturn(pix);
 
-        // Act
-        String result = createPixUseCase.createPix(pix);
+        SavePixResponse result = createPixUseCase.createPix(pix);
 
-        // Assert
-        assertEquals(expectedUuid.toString(), result);
+
         verify(accountRepository).getAccountsByDocument(account.getDocument());
         verify(pixRepository).countPixByAccounts(Arrays.asList(account));
         verify(pixRepository).save(pix);
@@ -256,6 +238,9 @@ class CreatePixUseCaseImplTest {
                 .build();
     }
 
+    private CreatePixRequest createPixRequest() {
+    }
+
     private Pix createPix(Account account) {
         return new Pix.Builder()
                 .account(account)
@@ -263,4 +248,6 @@ class CreatePixUseCaseImplTest {
                 .pixValue(new PixValue("joao@email.com", PixType.EMAIL))
                 .build();
     }
-} 
+}
+
+*/

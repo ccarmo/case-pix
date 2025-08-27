@@ -1,6 +1,7 @@
 package com.pix.poc.interactors.web.exception;
 
 import com.pix.poc.domain.exception.InvalidMaxValueCpfException;
+import com.pix.poc.domain.exception.PixInactiveExpcetion;
 import com.pix.poc.domain.exception.PixNotFoundException;
 import com.pix.poc.domain.exception.ValidationException;
 
@@ -64,6 +65,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidMaxValueCpfException.class)
     public ResponseEntity<ResponsePixCustom> handleMaxValueCpf(InvalidMaxValueCpfException ex) {
+        return ResponseEntity
+                .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .body(ResponsePixCustom.error(ex.getMessage()));
+    }
+
+    @ExceptionHandler(PixInactiveExpcetion.class)
+    public ResponseEntity<ResponsePixCustom> handleMaxValueCpf(PixInactiveExpcetion ex) {
         return ResponseEntity
                 .status(HttpStatus.UNPROCESSABLE_ENTITY)
                 .body(ResponsePixCustom.error(ex.getMessage()));

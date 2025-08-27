@@ -1,6 +1,7 @@
 package com.pix.poc.application.usecase.impl;
 
 import com.pix.poc.application.usecase.GetPixUseCase;
+import com.pix.poc.application.usecase.ValidatePixUseCase;
 import com.pix.poc.domain.entities.Account;
 import com.pix.poc.domain.entities.AccountType;
 import com.pix.poc.domain.entities.Pix;
@@ -13,21 +14,22 @@ import com.pix.poc.interactors.web.dto.request.PixFilterRequest;
 import com.pix.poc.interactors.web.dto.response.GetPixResponse;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class GetPixUseCaseImpl implements GetPixUseCase {
 
     PixRepository pixRepository;
+    ValidatePixUseCase validatePixUseCase;
 
-    public GetPixUseCaseImpl(PixRepository pixRepository){
+    public GetPixUseCaseImpl(PixRepository pixRepository, ValidatePixUseCase validatePixUseCase){
         this.pixRepository = pixRepository;
+        this.validatePixUseCase = validatePixUseCase;
     }
 
     @Override
     public List<GetPixResponse> getPix(PixFilterRequest pixFilterRequest) {
-
+        validatePixUseCase.validatePix(pixFilterRequest.getId());
        List<Pix>  listPix = pixRepository.get(
                pixFilterRequest.getId(),
                pixFilterRequest.getPixType(),

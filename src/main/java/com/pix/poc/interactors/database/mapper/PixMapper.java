@@ -13,7 +13,12 @@ import com.pix.poc.interactors.database.model.AccountModel;
 import com.pix.poc.interactors.database.model.PixModel;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.Date;
+import java.util.Objects;
 
 @Service
 public class PixMapper {
@@ -39,8 +44,9 @@ public class PixMapper {
                 pix.getPixType().name(),
                 pix.getPixValue().getValue(),
                 accountModel,
-                LocalDate.now(),
-                null
+                pix.getInclusionDate().atStartOfDay(ZoneId.of("America/Sao_Paulo")).toInstant(),
+                Objects.nonNull(pix.getInactivationDate()) ? pix.getInactivationDate().atStartOfDay(ZoneId.of("America/Sao_Paulo")).toInstant() : null,
+                pix.isActive()
         );
     }
 
@@ -60,10 +66,11 @@ public class PixMapper {
         return new Pix.Builder()
                 .uniqueID(model.getId())
                 .account(account)
-                .inactivationDate(model.getInactivationDate())
-                .inclusionDate(model.getInclusionDate())
+                .inactivationDate(Objects.nonNull(model.getInactivationDate()) ? model.getInactivationDate().atZone(ZoneOffset.UTC).toLocalDate() : null)
+                .inclusionDate(Objects.nonNull(model.getInclusionDate()) ? model.getInclusionDate().atZone(ZoneOffset.UTC).toLocalDate() : null)
                 .pixType(PixType.valueOf(model.getPixType()))
                 .pixValue(new PixValue(model.getPixValue(), PixType.valueOf(model.getPixType())))
+                .active(model.getActive())
                 .build();
     }
 }

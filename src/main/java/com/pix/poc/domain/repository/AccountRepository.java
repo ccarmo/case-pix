@@ -8,4 +8,5 @@ import java.util.List;
 public interface AccountRepository {
 
     List<Account> getAccountsByDocument(Document document);
+    void save(Account account);
 }

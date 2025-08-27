@@ -5,9 +5,11 @@ import com.pix.poc.domain.repository.AccountRepository;
 import com.pix.poc.domain.vo.Document;
 import com.pix.poc.interactors.database.mapper.AccountMapper;
 import com.pix.poc.interactors.database.model.AccountModel;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 @Service
 public class AccountDatabaseRepository implements AccountRepository {
@@ -27,5 +29,15 @@ public class AccountDatabaseRepository implements AccountRepository {
         return list.stream()
                 .map(accountModel -> accountMapper.toDomain(accountModel))
                 .toList();
+    }
+
+    @Override
+    public void save(Account account) {
+        try {
+            AccountModel accountModel = accountMapper.toModel(account);
+            accountJpaRepository.saveAndFlush(accountModel);
+        } catch (Exception ex) {
+            throw ex;
+        }
     }
 }

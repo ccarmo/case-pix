@@ -1,5 +1,6 @@
 package com.pix.poc.application.usecase.impl;
 
+import com.pix.poc.application.usecase.ValidatePixUseCase;
 import com.pix.poc.domain.entities.Account;
 import com.pix.poc.domain.entities.AccountType;
 import com.pix.poc.domain.entities.DocumentType;
@@ -34,11 +35,14 @@ class GetPixUseCaseImplTest {
     @Mock
     private PixRepository pixRepository;
 
+    @Mock
+    private ValidatePixUseCase validatePixUseCase;
+
     private GetPixUseCaseImpl getPixUseCase;
 
     @BeforeEach
     void setUp() {
-        getPixUseCase = new GetPixUseCaseImpl(pixRepository);
+        getPixUseCase = new GetPixUseCaseImpl(pixRepository, validatePixUseCase);
     }
 
     @Test
