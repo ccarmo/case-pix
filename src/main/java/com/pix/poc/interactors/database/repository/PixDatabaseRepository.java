@@ -93,5 +93,10 @@ public class PixDatabaseRepository implements PixRepository {
         return Optional.of(pixMapper.toDomain(pixModel.get()));
     }
 
+    @Override
+    public Boolean existsByPixValue(String pixValue) {
+        return pixJpaRepository.existsByPixValue(pixValue);
+    }
+
 
 }

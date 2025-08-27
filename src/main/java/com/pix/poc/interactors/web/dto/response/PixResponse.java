@@ -4,14 +4,14 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-public class ResponsePixCustom<T> {
+public class PixResponse<T> {
 
     private ResponseType type;
     private List<String> reasons;
     private LocalDateTime timestamp;
     private List<T> result;
 
-    public ResponsePixCustom(ResponseType type, List<String> reasons, List<T> result) {
+    public PixResponse(ResponseType type, List<String> reasons, List<T> result) {
         this.type = type;
         this.reasons = reasons;
         this.timestamp = LocalDateTime.now();
@@ -51,19 +51,19 @@ public class ResponsePixCustom<T> {
     }
 
 
-    public static <T> ResponsePixCustom<T> success(String reason) {
-        return new ResponsePixCustom<>(ResponseType.SUCCESS, List.of(reason), Collections.emptyList());
+    public static <T> PixResponse<T> success(String reason) {
+        return new PixResponse<>(ResponseType.SUCCESS, List.of(reason), Collections.emptyList());
     }
 
-    public static <T> ResponsePixCustom<T> success(List<T> result) {
-        return new ResponsePixCustom<>(ResponseType.SUCCESS, List.of("Operação realizada com sucesso"), result);
+    public static <T> PixResponse<T> success(List<T> result) {
+        return new PixResponse<>(ResponseType.SUCCESS, List.of("Operação realizada com sucesso"), result);
     }
 
-    public static <T> ResponsePixCustom<T> error(String reason) {
-        return new ResponsePixCustom<>(ResponseType.ERROR, List.of(reason), Collections.emptyList());
+    public static <T> PixResponse<T> error(String reason) {
+        return new PixResponse<>(ResponseType.ERROR, List.of(reason), Collections.emptyList());
     }
 
-    public static <T> ResponsePixCustom<T> error(List<String> reasons) {
-        return new ResponsePixCustom<>(ResponseType.ERROR, reasons, Collections.emptyList());
+    public static <T> PixResponse<T> error(List<String> reasons) {
+        return new PixResponse<>(ResponseType.ERROR, reasons, Collections.emptyList());
     }
 }

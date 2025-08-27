@@ -2,7 +2,8 @@ package com.pix.poc.interactors.web.dto.response;
 
 import com.pix.poc.domain.entities.Pix;
 
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
 
 public record DeletionPixResponse(
         String id,
@@ -10,8 +11,8 @@ public record DeletionPixResponse(
         Integer agencyNumber,
         Integer accountNumber,
         String name,
-        LocalDate pixInclusionDate,
-        LocalDate pixDeactivationDate
+        LocalDateTime pixInclusionDate,
+        LocalDateTime pixDeactivationDate
 ) {
 
     public static DeletionPixResponse toDeletionPixResponse(Pix pix) {
@@ -21,8 +22,8 @@ public record DeletionPixResponse(
                pix.getAccount().getAgencyNumber().getValue(),
                pix.getAccount().getAccountNumber().getValue(),
                pix.getAccount().getName(),
-               pix.getInclusionDate(),
-               pix.getInactivationDate()
+               pix.getInclusionDate().toLocalDateTime(),
+               pix.getInactivationDate().toLocalDateTime()
        );
     }
 }

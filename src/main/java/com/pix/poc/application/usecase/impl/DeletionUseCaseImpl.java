@@ -7,7 +7,9 @@ import com.pix.poc.domain.repository.PixRepository;
 import com.pix.poc.interactors.web.dto.response.DeletionPixResponse;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Service
 public class DeletionUseCaseImpl implements DeletionUseCase {
@@ -25,7 +27,7 @@ public class DeletionUseCaseImpl implements DeletionUseCase {
     public DeletionPixResponse deletePix(String id) {
         Pix pix = validatePixUseCase.validatePix(id);
         pix.setActive(false);
-        pix.setInactivationDate(LocalDate.now());
+        pix.setInactivationDate(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
         Pix pixUpdate = pixRepository.save(pix);
         return DeletionPixResponse.toDeletionPixResponse(pixUpdate);
 

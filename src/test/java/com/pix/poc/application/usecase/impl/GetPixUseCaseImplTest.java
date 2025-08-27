@@ -351,7 +351,6 @@ class GetPixUseCaseImplTest {
                 .account(account)
                 .pixType(PixType.EMAIL)
                 .pixValue(new PixValue(pixValue , PixType.EMAIL))
-                .inclusionDate(LocalDate.of(2024, 1, 1))
                 .build();
     }
 } 

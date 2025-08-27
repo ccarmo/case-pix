@@ -5,6 +5,7 @@ import com.pix.poc.domain.entities.*;
 
 import com.pix.poc.domain.exception.InvalidMaxValueCnpjException;
 import com.pix.poc.domain.exception.InvalidMaxValueCpfException;
+import com.pix.poc.domain.exception.InvalidPixValueException;
 import com.pix.poc.domain.repository.AccountRepository;
 import com.pix.poc.domain.repository.PixRepository;
 import com.pix.poc.domain.vo.AccountNumber;
@@ -16,6 +17,9 @@ import com.pix.poc.interactors.web.dto.response.SavePixResponse;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,6 +36,14 @@ public class CreatePixUseCaseImpl implements CreatePixUseCase {
 
     @Override
     public SavePixResponse createPix(CreatePixRequest createPixRequest) {
+
+        PixType pixTypeDomain = PixType.valueOf(createPixRequest.pixType());
+        PixValue pixValueDomain = new PixValue(createPixRequest.pixValue(), pixTypeDomain);
+
+        if(pixRepository.existsByPixValue(pixValueDomain.getValue())) {
+            throw new InvalidPixValueException("Pix já cadastrado.");
+        }
+
         Document document = new Document(createPixRequest.documentNumber());
         List<Account> accountList = accountRepository.getAccountsByDocument(document);
         Long count = pixRepository.countPixByAccounts(accountList);
@@ -51,22 +63,20 @@ public class CreatePixUseCaseImpl implements CreatePixUseCase {
                 .agencyNumber(new AgencyNumber(createPixRequest.agencyNumber()))
                 .build();
 
-        PixType pixTypeDomain = PixType.valueOf(createPixRequest.pixType());
 
-        PixValue pixValueDomain = new PixValue(createPixRequest.pixType(), pixTypeDomain);
 
         Pix pix = new Pix.Builder()
                 .account(account)
                 .pixType(pixTypeDomain)
                 .pixValue(pixValueDomain)
                 .active(true)
-                .inclusionDate(LocalDate.now())
+                .inclusionDate(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")))
                 .build();
 
 
         Pix pixSaved = pixRepository.save(pix);
 
-        return SavePixResponse.from(pixSaved.getUniqueID(), pixSaved.getInclusionDate(), pixSaved.getInactivationDate());
+        return SavePixResponse.from(pixSaved.getUniqueID());
 
     }
 }

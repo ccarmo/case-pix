@@ -1,7 +1,7 @@
 package com.pix.poc.interactors.config;
 
 
-import com.pix.poc.interactors.web.dto.response.ResponsePixCustom;
+import com.pix.poc.interactors.web.dto.response.PixResponse;
 import com.pix.poc.interactors.web.dto.response.ResponseType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class ResponseInterceptor implements ResponseBodyAdvice<Object> {
 
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        return ResponsePixCustom.class.isAssignableFrom(returnType.getParameterType());
+        return PixResponse.class.isAssignableFrom(returnType.getParameterType());
     }
 
     @Override
@@ -33,7 +33,7 @@ public class ResponseInterceptor implements ResponseBodyAdvice<Object> {
                                   ServerHttpResponse response) {
 
         if (request.getURI().getPath().startsWith("/pix")) {
-            if (body instanceof ResponsePixCustom dto) {
+            if (body instanceof PixResponse dto) {
                 if (dto.getTimestamp() == null) {
                     dto.setTimestamp(java.time.LocalDateTime.now());
                 }

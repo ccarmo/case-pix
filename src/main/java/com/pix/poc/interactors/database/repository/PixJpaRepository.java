@@ -2,6 +2,7 @@ package com.pix.poc.interactors.database.repository;
 
 import com.pix.poc.interactors.database.model.AccountId;
 import com.pix.poc.interactors.database.model.PixModel;
+import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -42,5 +43,7 @@ public interface PixJpaRepository extends JpaRepository<PixModel, String> {
     WHERE p.account.id IN :accountIds
    """)
    Long countPixByAccounts(@Param("accountIds") List<AccountId> accountIds);
+
+   boolean existsByPixValue(String pixValue);
 
 }

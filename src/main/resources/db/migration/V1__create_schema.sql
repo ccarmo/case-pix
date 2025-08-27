@@ -19,7 +19,8 @@ CREATE TABLE pix (
     inactivation_date TIMESTAMP NULL,
     is_active         BOOLEAN NOT NULL DEFAULT TRUE,
     CONSTRAINT fk_pix_account FOREIGN KEY (account_number, agency_number)
-        REFERENCES account (account_number, agency_number)
+        REFERENCES account (account_number, agency_number),
+    CONSTRAINT uq_pix_value UNIQUE (pix_value)
 );
 
 -- Contas

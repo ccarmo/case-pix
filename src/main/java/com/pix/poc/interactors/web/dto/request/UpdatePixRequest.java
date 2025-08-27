@@ -10,6 +10,4 @@ public record UpdatePixRequest(
         @JsonProperty("agencyNumber") Integer agencyNumber,
         @JsonProperty("nameClient") String nameClient,
         @JsonProperty("lastNameClient") String lastNameClient
-) {
-
-}
+) {}

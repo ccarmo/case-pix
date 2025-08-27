@@ -12,8 +12,6 @@ import com.pix.poc.interactors.web.dto.request.PixFilterRequest;
 import com.pix.poc.interactors.web.dto.request.UpdatePixRequest;
 import com.pix.poc.interactors.web.dto.response.*;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,27 +33,27 @@ public class PixController {
     }
 
     @PostMapping
-    public ResponsePixCustom create(@RequestBody CreatePixRequest createPixRequest) {
+    public PixResponse create(@RequestBody CreatePixRequest createPixRequest) {
         SavePixResponse pixResponse = createPixUseCase.createPix(createPixRequest);
-        return ResponsePixCustom.success(List.of(pixResponse.id()));
+        return PixResponse.success(List.of(pixResponse.id()));
     }
 
     @GetMapping
-    public ResponsePixCustom get(@Valid PixFilterRequest filterRequest) {
-         List<GetPixResponse> list = getPixUseCase.getPix(filterRequest);
-         return ResponsePixCustom.success(list);
+    public PixResponse get(@Valid PixFilterRequest filterRequest) {
+         List<GetPixResponse> getPixResponses = getPixUseCase.getPix(filterRequest);
+         return PixResponse.success(getPixResponses);
     }
 
     @PatchMapping
-    public ResponsePixCustom update(@RequestBody UpdatePixRequest updatePixRequest) {
-        UpdatePixResponse update = updateUseCase.changePix(updatePixRequest);
-        return ResponsePixCustom.success(List.of(update));
+    public PixResponse update(@RequestBody UpdatePixRequest updatePixRequest) {
+        UpdatePixResponse getPixResponse = updateUseCase.changePix(updatePixRequest);
+        return PixResponse.success(List.of(getPixResponse));
     }
 
     @DeleteMapping("/{id}")
-    public ResponsePixCustom delete(@PathVariable("id") String id) {
+    public PixResponse delete(@PathVariable("id") String id) {
         DeletionPixResponse deletionPixResponse = deletionUseCase.deletePix(id);
-        return ResponsePixCustom.success(List.of(deletionPixResponse));
+        return PixResponse.success(List.of(deletionPixResponse));
     }
 
 
