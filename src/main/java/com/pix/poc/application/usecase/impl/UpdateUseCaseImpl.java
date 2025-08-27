@@ -1,6 +1,8 @@
 package com.pix.poc.application.usecase.impl;
 
 import com.pix.poc.application.usecase.UpdateUseCase;
+import com.pix.poc.application.usecase.ValidateAccountPixUseCase;
+import com.pix.poc.application.usecase.ValidatePixUseCase;
 import com.pix.poc.domain.entities.Account;
 import com.pix.poc.domain.entities.AccountType;
 import com.pix.poc.domain.entities.Pix;
@@ -20,41 +22,27 @@ import java.util.Optional;
 @Service
 public class UpdateUseCaseImpl implements UpdateUseCase {
 
+    ValidatePixUseCase validatePixUseCase;
+    ValidateAccountPixUseCase validateAccountPixUseCase;
     PixRepository pixRepository;
     AccountRepository accountRepository;
 
-    public UpdateUseCaseImpl(PixRepository pixRepository, AccountRepository accountRepository) {
+    public UpdateUseCaseImpl(ValidatePixUseCase validatePixUseCase, ValidateAccountPixUseCase validateAccountPixUseCase, PixRepository pixRepository) {
+        this.validatePixUseCase = validatePixUseCase;
+        this.validateAccountPixUseCase = validateAccountPixUseCase;
         this.pixRepository = pixRepository;
-        this.accountRepository = accountRepository;
     }
 
     @Override
     @Transactional
     public UpdatePixResponse changePix(UpdatePixRequest updatePixRequest) {
-        Optional<Pix> pixOptional = pixRepository.findById(updatePixRequest.id());
-
-        if(pixOptional.isEmpty()) {
-            throw new PixNotFoundException("Nao há valor de pix para os parametro(s) pesquisado(s)");
-        }
-
-        if(pixOptional.get().isActive().equals(false)) {
-            throw new PixInactiveExpcetion("Pix desativado. Não é possível realizar alterações");
-        }
-
-        Account accountPixId = pixOptional.get().getAccount();
-
-
-        accountPixId.setName(updatePixRequest.nameClient());
-        accountPixId.setLastName(updatePixRequest.lastNameClient());
-        accountPixId.setAccountType(AccountType.valueOf(updatePixRequest.accountType()));
-
-        pixOptional.get().setAccount(accountPixId);
-        pixRepository.save(pixOptional.get());
-        //accountRepository.save(accountPixId);
-
-
-
-        return UpdatePixResponse.fromUpdatePixRequest(pixOptional.get().getUniqueID(), accountPixId);
+        Pix pix = validatePixUseCase.validatePix(updatePixRequest.id());
+        AccountNumber accountNumber = new AccountNumber(updatePixRequest.accountNumber());
+        AgencyNumber agencyNumber = new AgencyNumber(updatePixRequest.agencyNumber());
+        Account account = validateAccountPixUseCase.validateAccount(accountNumber, agencyNumber);
+        pix.changeAccount(account);
+        pixRepository.save(pix);
+        return UpdatePixResponse.fromUpdatePixRequest(pix.getUniqueID(), account);
 
     }
 }

@@ -7,7 +7,6 @@ import com.pix.poc.domain.repository.PixRepository;
 import com.pix.poc.interactors.web.dto.response.DeletionPixResponse;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 

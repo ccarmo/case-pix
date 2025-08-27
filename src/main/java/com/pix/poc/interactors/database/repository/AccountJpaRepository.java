@@ -1,5 +1,6 @@
 package com.pix.poc.interactors.database.repository;
 
+import com.pix.poc.interactors.database.model.AccountId;
 import com.pix.poc.interactors.database.model.AccountModel;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,8 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface AccountJpaRepository extends JpaRepository<AccountModel, String> {
+public interface AccountJpaRepository extends JpaRepository<AccountModel, AccountId> {
 
     @Query("""
     SELECT a FROM AccountModel a
@@ -17,4 +19,8 @@ public interface AccountJpaRepository extends JpaRepository<AccountModel, String
     List<AccountModel> findAllByDocument(
             @Param("documentNumber") String documentNumber
     );
+
+    Optional<AccountModel> findByIdAccountNumberAndIdAgencyNumber(Integer accountNumber, Integer agencyNumber);
+
+
 }

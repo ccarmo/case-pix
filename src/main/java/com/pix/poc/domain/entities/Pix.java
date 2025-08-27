@@ -5,7 +5,6 @@ import com.pix.poc.domain.vo.PixValue;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Pix {
@@ -56,14 +55,29 @@ public class Pix {
     public ZonedDateTime getInclusionDate() { return inclusionDate; }
     public ZonedDateTime getInactivationDate() { return inactivationDate; }
     public Boolean isActive() { return active; }
-    public void setAccount(Account account) {
-        this.account = account;
-    }
     public void setActive(Boolean active) {
         this.active = active;
     }
     public void setInactivationDate(ZonedDateTime inactivationDate){
         this.inactivationDate = inactivationDate;
+    }
+
+    public void changeAccount(Account newAccount) {
+        if (!Boolean.TRUE.equals(this.active)) {
+            throw new IllegalStateException("Não é possível alterar a conta de um PIX inativado.");
+        }
+
+        if (newAccount == null) {
+            throw new IllegalArgumentException("A nova conta não pode ser nula.");
+        }
+
+        if (this.account != null &&
+                this.account.getAccountNumber().equals(newAccount.getAccountNumber()) &&
+                this.account.getAgencyNumber().equals(newAccount.getAgencyNumber())) {
+            return;
+        }
+
+        this.account = newAccount;
     }
 
 }
