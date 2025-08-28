@@ -1,8 +1,9 @@
 package com.pix.poc.interactors.web.exception;
 
+import com.pix.poc.application.web.exception.GlobalExceptionHandler;
 import com.pix.poc.domain.exception.*;
-import com.pix.poc.interactors.web.dto.response.PixResponse;
-import com.pix.poc.interactors.web.dto.response.ResponseType;
+import com.pix.poc.application.web.dto.response.PixResponse;
+import com.pix.poc.application.web.dto.response.ResponseType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

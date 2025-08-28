@@ -6,17 +6,13 @@ import com.pix.poc.application.usecase.ValidatePixUseCase;
 import com.pix.poc.domain.entities.Account;
 import com.pix.poc.domain.entities.AccountType;
 import com.pix.poc.domain.entities.Pix;
-import com.pix.poc.domain.exception.PixInactiveExpcetion;
-import com.pix.poc.domain.exception.PixNotFoundException;
 import com.pix.poc.domain.repository.AccountRepository;
 import com.pix.poc.domain.repository.PixRepository;
 import com.pix.poc.domain.vo.*;
-import com.pix.poc.interactors.web.dto.request.UpdatePixRequest;
-import com.pix.poc.interactors.web.dto.response.UpdatePixResponse;
+import com.pix.poc.application.web.dto.request.UpdatePixRequest;
+import com.pix.poc.application.web.dto.response.UpdatePixResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UpdateUseCaseImpl implements UpdateUseCase {

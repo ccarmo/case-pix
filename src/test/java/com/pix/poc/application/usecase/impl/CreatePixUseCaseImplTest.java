@@ -11,8 +11,8 @@ import com.pix.poc.domain.vo.AccountNumber;
 import com.pix.poc.domain.vo.AgencyNumber;
 import com.pix.poc.domain.vo.Document;
 import com.pix.poc.domain.vo.PixValue;
-import com.pix.poc.interactors.web.dto.request.CreatePixRequest;
-import com.pix.poc.interactors.web.dto.response.SavePixResponse;
+import com.pix.poc.application.web.dto.request.CreatePixRequest;
+import com.pix.poc.application.web.dto.response.SavePixResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +23,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

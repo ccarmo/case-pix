@@ -5,8 +5,8 @@ import com.pix.poc.application.usecase.ValidatePixUseCase;
 import com.pix.poc.domain.entities.Pix;
 import com.pix.poc.domain.exception.PixNotFoundException;
 import com.pix.poc.domain.repository.PixRepository;
-import com.pix.poc.interactors.web.dto.request.PixFilterRequest;
-import com.pix.poc.interactors.web.dto.response.GetPixResponse;
+import com.pix.poc.application.web.dto.request.PixFilterRequest;
+import com.pix.poc.application.web.dto.response.GetPixResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

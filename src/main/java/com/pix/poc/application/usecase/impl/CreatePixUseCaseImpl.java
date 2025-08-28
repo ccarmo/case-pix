@@ -11,8 +11,8 @@ import com.pix.poc.domain.exception.InvalidPixValueException;
 import com.pix.poc.domain.repository.AccountRepository;
 import com.pix.poc.domain.repository.PixRepository;
 import com.pix.poc.domain.vo.*;
-import com.pix.poc.interactors.web.dto.request.CreatePixRequest;
-import com.pix.poc.interactors.web.dto.response.SavePixResponse;
+import com.pix.poc.application.web.dto.request.CreatePixRequest;
+import com.pix.poc.application.web.dto.response.SavePixResponse;
 import org.springframework.stereotype.Service;
 
 

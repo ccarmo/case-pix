@@ -9,7 +9,7 @@ import com.pix.poc.domain.repository.PixRepository;
 import com.pix.poc.domain.vo.AccountNumber;
 import com.pix.poc.domain.vo.AgencyNumber;
 import com.pix.poc.domain.vo.Document;
-import com.pix.poc.interactors.web.dto.response.DeletionPixResponse;
+import com.pix.poc.application.web.dto.response.DeletionPixResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
