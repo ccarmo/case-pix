@@ -13,12 +13,15 @@ import com.pix.poc.application.web.dto.request.UpdatePixRequest;
 import com.pix.poc.application.web.dto.response.*;
 
 import jakarta.validation.Valid;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/pix")
+@RequestMapping(value = "/pix",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
 public class PixController {
 
     CreatePixUseCase createPixUseCase;
