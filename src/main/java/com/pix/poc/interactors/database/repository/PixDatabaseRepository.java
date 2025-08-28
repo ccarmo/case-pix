@@ -11,6 +11,7 @@ import com.pix.poc.interactors.database.model.AccountId;
 import com.pix.poc.interactors.database.model.AccountModel;
 import com.pix.poc.interactors.database.model.PixModel;
 
+import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import org.springframework.stereotype.Service;
@@ -89,9 +90,6 @@ public class PixDatabaseRepository implements PixRepository {
             LocalDate inactivationDate
     ) {
         try {
-            Instant inclusionInstant = inclusionDate != null ? inclusionDate.atStartOfDay().toInstant(ZoneOffset.UTC) : null;
-            Instant inactivationInstant = inactivationDate != null ? inactivationDate.atStartOfDay().toInstant(ZoneOffset.UTC) : null;
-
             List<PixModel> listPixModel = pixJpaRepository.findAll((root, query, cb) -> {
 
                 var predicates = cb.conjunction();
@@ -101,15 +99,17 @@ public class PixDatabaseRepository implements PixRepository {
                     predicates = cb.and(predicates, cb.equal(root.get("pixType"), pixType));
                 }
 
-                if (inclusionInstant != null) {
-                    predicates = cb.and(predicates, cb.greaterThanOrEqualTo(root.get("inclusionDate"), inclusionInstant));
+                if (inclusionDate != null) {
+                    Expression<LocalDate> dateOnly = cb.function("date", LocalDate.class, root.get("inclusionDate"));
+                    predicates = cb.and(predicates, cb.greaterThanOrEqualTo(dateOnly, inclusionDate));
                 }
 
-                if (inactivationInstant != null) {
-                    predicates = cb.and(predicates, cb.lessThanOrEqualTo(root.get("inactivationDate"), inactivationInstant));
+                if (inactivationDate != null) {
+                    Expression<LocalDate> dateOnly = cb.function("date", LocalDate.class, root.get("inactivationDate"));
+                    predicates = cb.and(predicates, cb.lessThanOrEqualTo(dateOnly, inactivationDate));
                 }
 
-                // Filtros opcionais da Account
+                // Filtros de Account
                 if (agencyNumber != null) {
                     predicates = cb.and(predicates, cb.equal(root.get("account").get("id").get("agencyNumber"), agencyNumber));
                 }
