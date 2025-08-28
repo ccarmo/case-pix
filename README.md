@@ -42,7 +42,7 @@ mvn clean install
 ### Subir infraestrutura (banco de dados) com Docker Compose
 
 ```sh
-docker-compose up --build
+docker compose -p case-pix up --build
 ```
 
 ### Executar aplicação via Maven
