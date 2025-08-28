@@ -10,8 +10,7 @@ import com.pix.poc.domain.exception.PixInactiveExpcetion;
 import com.pix.poc.domain.exception.PixNotFoundException;
 import com.pix.poc.domain.repository.AccountRepository;
 import com.pix.poc.domain.repository.PixRepository;
-import com.pix.poc.domain.vo.AccountNumber;
-import com.pix.poc.domain.vo.AgencyNumber;
+import com.pix.poc.domain.vo.*;
 import com.pix.poc.interactors.web.dto.request.UpdatePixRequest;
 import com.pix.poc.interactors.web.dto.response.UpdatePixResponse;
 import jakarta.transaction.Transactional;
@@ -37,6 +36,10 @@ public class UpdateUseCaseImpl implements UpdateUseCase {
     @Transactional
     public UpdatePixResponse changePix(UpdatePixRequest updatePixRequest) {
 
+        Name name = new Name(updatePixRequest.nameClient());
+        LastName lastName = new LastName(updatePixRequest.lastNameClient());
+        AccountType accountType  = AccountType.valueOfOrThrow(updatePixRequest.accountType());
+
         Pix pix = validatePixUseCase.validatePix(updatePixRequest.id());
         AccountNumber accountNumber = new AccountNumber(updatePixRequest.accountNumber());
         AgencyNumber agencyNumber = new AgencyNumber(updatePixRequest.agencyNumber());
@@ -44,11 +47,11 @@ public class UpdateUseCaseImpl implements UpdateUseCase {
 
         Account newAccount = new Account(
                 account.getDocument(),
-                updatePixRequest.nameClient(),
-                updatePixRequest.lastNameClient(),
+                name.value(),
+                lastName.value(),
                 new AgencyNumber(updatePixRequest.agencyNumber()),
                 new AccountNumber(updatePixRequest.accountNumber()),
-                AccountType.valueOf(updatePixRequest.accountType())
+                AccountType.valueOf(accountType.name())
         );
 
         Pix newPix =  pixRepository.updatePix(newAccount, pix);
