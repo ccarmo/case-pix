@@ -32,7 +32,7 @@ mvn clean install
 ### Subir infraestrutura (banco de dados) com Docker Compose
 
 ```sh
-docker-compose up -d
+docker-compose up --builld
 ```
 
 ### Executar aplicação via Maven
