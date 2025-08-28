@@ -7,10 +7,7 @@ import com.pix.poc.domain.entities.Pix;
 import com.pix.poc.domain.entities.PixType;
 import com.pix.poc.domain.exception.PixNotFoundException;
 import com.pix.poc.domain.repository.PixRepository;
-import com.pix.poc.domain.vo.AccountNumber;
-import com.pix.poc.domain.vo.AgencyNumber;
-import com.pix.poc.domain.vo.PixValue;
-import com.pix.poc.domain.vo.Document;
+import com.pix.poc.domain.vo.*;
 import com.pix.poc.interactors.web.dto.request.PixFilterRequest;
 import com.pix.poc.interactors.web.dto.response.GetPixResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,13 +55,13 @@ class GetPixUseCaseImplTest {
                 .name("Carlos")
                 .lastName("Silva")
                 .accountType(AccountType.POUPANCA)
-                .document(new Document("12345678900"))
+                .document(new Document("12345678909"))
                 .build();
 
         Pix pix = new Pix.Builder()
-                .uniqueID("123")
+                .uniqueID(new PixId("f47ac10b-58cc-4372-a567-0e02b2c3d479"))
                 .pixType(PixType.CPF)
-                .pixValue(new PixValue("12345678900", PixType.CELULAR))
+                .pixValue(new PixValue("12345678909", PixType.CELULAR))
                 .account(account)
                 .inclusionDate(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")))
                 .build();
@@ -135,7 +132,7 @@ class GetPixUseCaseImplTest {
                 .build();
 
         Pix pix = new Pix.Builder()
-                .uniqueID("999")
+                .uniqueID(new PixId("f47ac10b-58cc-4372-a567-0e02b2c3d479"))
                 .pixType(PixType.EMAIL)
                 .pixValue(new PixValue("maria@email.com", PixType.EMAIL))
                 .account(account)

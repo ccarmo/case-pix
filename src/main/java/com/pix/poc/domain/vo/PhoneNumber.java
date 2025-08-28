@@ -5,49 +5,44 @@ import com.pix.poc.domain.exception.InvalidLengthException;
 import com.pix.poc.domain.exception.MissingPlusException;
 import com.pix.poc.domain.exception.NullOrEmptyPhoneNumberException;
 
+import java.util.regex.Pattern;
 
-import java.util.Objects;
 
-public final class PhoneNumber {
+public record PhoneNumber(String value) {
 
-    private final String value;
+    private static final Pattern NUMERIC_PATTERN = Pattern.compile("\\d+");
 
-    public PhoneNumber(String value) {
+    public PhoneNumber {
         if (value == null || value.isBlank()) {
-            throw new NullOrEmptyPhoneNumberException();
+            throw new IllegalArgumentException("Número de celular não pode ser nulo ou vazio");
         }
 
         if (!value.startsWith("+")) {
-            throw new MissingPlusException();
+            throw new IllegalArgumentException("Número deve começar com '+'");
         }
 
-        String digitsOnly = value.substring(1);
+        String remaining = value.substring(1);
 
-        if (digitsOnly.isEmpty() || digitsOnly.charAt(0) == '0') {
-            throw new InvalidCountryCodeException();
+        if (remaining.length() < 12) {
+            throw new IllegalArgumentException("Número muito curto");
         }
 
-        if (digitsOnly.length() < 8 || digitsOnly.length() > 15) {
-            throw new InvalidLengthException();
+        String countryCode = remaining.substring(0, 2);
+        if (!NUMERIC_PATTERN.matcher(countryCode).matches()) {
+            throw new IllegalArgumentException("Código do país deve ser numérico");
         }
 
-        this.value = value;
-    }
 
-    @Override
-    public String toString() {
-        return value;
-    }
+        String ddd = remaining.substring(2, 4);
+        if (!NUMERIC_PATTERN.matcher(ddd).matches()) {
+            throw new IllegalArgumentException("DDD deve ser numérico");
+        }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PhoneNumber that)) return false;
-        return Objects.equals(value, that.value);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(value);
+        String number = remaining.substring(4);
+        if (number.length() != 9 || !NUMERIC_PATTERN.matcher(number).matches()) {
+            throw new IllegalArgumentException("Número deve ter 9 dígitos numéricos");
+        }
+
     }
 }

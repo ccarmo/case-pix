@@ -17,7 +17,7 @@ public record DeletionPixResponse(
 
     public static DeletionPixResponse toDeletionPixResponse(Pix pix) {
        return new DeletionPixResponse(
-               pix.getUniqueID(),
+               pix.getUniqueID().value(),
                pix.getPixType().name(),
                pix.getAccount().getAgencyNumber().getValue(),
                pix.getAccount().getAccountNumber().getValue(),

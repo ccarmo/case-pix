@@ -76,7 +76,7 @@ public class CreatePixUseCaseImpl implements CreatePixUseCase {
 
         Pix pixSaved = pixRepository.save(pix);
 
-        return SavePixResponse.from(pixSaved.getUniqueID());
+        return SavePixResponse.from(pixSaved.getUniqueID().value());
 
     }
 }

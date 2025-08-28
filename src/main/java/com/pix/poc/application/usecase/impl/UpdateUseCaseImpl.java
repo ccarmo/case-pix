@@ -42,7 +42,7 @@ public class UpdateUseCaseImpl implements UpdateUseCase {
         Account account = validateAccountPixUseCase.validateAccount(accountNumber, agencyNumber);
         pix.changeAccount(account);
         pixRepository.save(pix);
-        return UpdatePixResponse.fromUpdatePixRequest(pix.getUniqueID(), account);
+        return UpdatePixResponse.fromUpdatePixRequest(pix.getUniqueID().value(), account);
 
     }
 }

@@ -47,7 +47,7 @@ class DeletionUseCaseImplTest {
     void setUp() {
         pixId = "test-pix-id";
         
-        document = new Document("12345678901");
+        document = new Document("12345678909");
         
         account = new Account.Builder()
                 .document(document)

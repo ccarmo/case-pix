@@ -1,5 +1,6 @@
 package com.pix.poc.domain.entities;
 
+import com.pix.poc.domain.vo.PixId;
 import com.pix.poc.domain.vo.PixValue;
 
 import java.time.ZoneId;
@@ -9,7 +10,7 @@ import java.util.UUID;
 
 public class Pix {
 
-    private String uniqueID;
+    private PixId uniqueID;
     private PixType pixType;
     private PixValue pixValue;
     private Account account;
@@ -18,7 +19,7 @@ public class Pix {
     private Boolean active;
 
     private Pix(Builder builder) {
-        this.uniqueID = builder.uniqueID != null ? builder.uniqueID : UUID.randomUUID().toString();
+        this.uniqueID = builder.uniqueID != null ? builder.uniqueID : new PixId(UUID.randomUUID().toString());
         this.account = builder.account;
         this.pixType = builder.pixType;
         this.pixValue = builder.pixValue;
@@ -28,7 +29,7 @@ public class Pix {
     }
 
     public static class Builder {
-        private String uniqueID;
+        private PixId uniqueID;
         private PixType pixType;
         private PixValue pixValue;
         private Account account;
@@ -39,7 +40,7 @@ public class Pix {
         public Builder account(Account account) { this.account = account; return this; }
         public Builder pixType(PixType pixType) { this.pixType = pixType; return this; }
         public Builder pixValue(PixValue pixValue) { this.pixValue = pixValue; return this; }
-        public Builder uniqueID(String uniqueID) { this.uniqueID = uniqueID; return this; }
+        public Builder uniqueID(PixId uniqueID) { this.uniqueID = uniqueID; return this; }
         public Builder inclusionDate(ZonedDateTime date) { this.inclusionDate = date; return this; }
         public Builder inactivationDate(ZonedDateTime date) { this.inactivationDate = date; return this; }
         public Builder active(Boolean active) { this.active = active; return this; }
@@ -48,7 +49,7 @@ public class Pix {
     }
 
 
-    public String getUniqueID() { return uniqueID; }
+    public PixId getUniqueID() { return uniqueID; }
     public Account getAccount() { return account; }
     public PixValue getPixValue() { return pixValue; }
     public PixType getPixType() { return pixType; }

@@ -50,7 +50,7 @@ class CreatePixUseCaseImplTest {
     @BeforeEach
     void setUp() {
         createPixRequest = new CreatePixRequest(
-                "12345678901",
+                "12345678909",
                 12345,
                 "CORRENTE",
                 1234,
@@ -60,7 +60,7 @@ class CreatePixUseCaseImplTest {
                 "test@email.com"
         );
 
-        document = new Document("12345678901");
+        document = new Document("12345678909");
         pixValue = new PixValue("test@email.com", PixType.EMAIL);
         
         account = new Account.Builder()
@@ -140,7 +140,7 @@ class CreatePixUseCaseImplTest {
     void createPix_DeveLancarExcecao_QuandoCNPJTemMaisDe20Pix() {
         // Arrange
         CreatePixRequest cnpjRequest = new CreatePixRequest(
-                "12345678000199",
+                "04252011000110",
                 12345,
                 "CORRENTE",
                 1234,
@@ -192,7 +192,7 @@ class CreatePixUseCaseImplTest {
     void createPix_DeveCriarPixComSucesso_QuandoCNPJTem20PixOuMenos() {
         // Arrange
         CreatePixRequest cnpjRequest = new CreatePixRequest(
-                "12345678000199",
+                "04252011000110",
                 12345,
                 "CORRENTE",
                 1234,
@@ -223,7 +223,7 @@ class CreatePixUseCaseImplTest {
     void createPix_DeveCriarPixComSucesso_QuandoTipoPixDiferente() {
         // Arrange
         CreatePixRequest phoneRequest = new CreatePixRequest(
-                "12345678901",
+                "12345678909",
                 12345,
                 "CORRENTE",
                 1234,
@@ -254,7 +254,7 @@ class CreatePixUseCaseImplTest {
     void createPix_DeveCriarPixComSucesso_QuandoTipoContaDiferente() {
         // Arrange
         CreatePixRequest poupancaRequest = new CreatePixRequest(
-                "12345678901",
+                "12345678909",
                 12345,
                 "POUPANCA",
                 1234,

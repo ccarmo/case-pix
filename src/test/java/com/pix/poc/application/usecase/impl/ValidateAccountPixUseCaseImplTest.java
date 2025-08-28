@@ -41,7 +41,7 @@ class ValidateAccountPixUseCaseImplTest {
         accountNumber = new AccountNumber(12345);
         agencyNumber = new AgencyNumber(1234);
         
-        document = new Document("12345678901");
+        document = new Document("12345678909");
         
         account = new Account.Builder()
                 .document(document)
@@ -155,7 +155,7 @@ class ValidateAccountPixUseCaseImplTest {
     @Test
     void validateAccount_DeveFuncionarComDiferentesDocumentos_QuandoExecutado() {
         // Arrange
-        Document differentDocument = new Document("98765432109");
+        Document differentDocument = new Document("12345678909");
         Account differentDocumentAccount = new Account.Builder()
                 .document(differentDocument)
                 .accountType(AccountType.CORRENTE)

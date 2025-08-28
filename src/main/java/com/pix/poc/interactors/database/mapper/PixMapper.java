@@ -4,10 +4,7 @@ import com.pix.poc.domain.entities.Account;
 import com.pix.poc.domain.entities.AccountType;
 import com.pix.poc.domain.entities.Pix;
 import com.pix.poc.domain.entities.PixType;
-import com.pix.poc.domain.vo.AccountNumber;
-import com.pix.poc.domain.vo.AgencyNumber;
-import com.pix.poc.domain.vo.Document;
-import com.pix.poc.domain.vo.PixValue;
+import com.pix.poc.domain.vo.*;
 import com.pix.poc.interactors.database.model.AccountId;
 import com.pix.poc.interactors.database.model.AccountModel;
 import com.pix.poc.interactors.database.model.PixModel;
@@ -37,7 +34,7 @@ public class PixMapper {
         );
 
         return new PixModel(
-                pix.getUniqueID(),
+                pix.getUniqueID().value(),
                 pix.getPixType().name(),
                 pix.getPixValue().getValue(),
                 accountModel,
@@ -61,7 +58,7 @@ public class PixMapper {
                 .build();
 
         return new Pix.Builder()
-                .uniqueID(model.getId())
+                .uniqueID(new PixId(model.getId()))
                 .account(account)
                 .inactivationDate(Objects.nonNull(model.getInactivationDate()) ?  model.getInactivationDate().atZone(ZoneId.of("America/Sao_Paulo")) : null)
                 .inclusionDate(Objects.nonNull(model.getInclusionDate()) ? model.getInclusionDate().atZone(ZoneId.of("America/Sao_Paulo")) : null)

@@ -20,7 +20,7 @@ public record GetPixResponse(
     public static GetPixResponse fromPix(Pix pix) {
 
         return new GetPixResponse(
-                pix.getUniqueID() != null ? pix.getUniqueID() : "",
+                pix.getUniqueID() != null ? pix.getUniqueID().value() : "",
                 pix.getPixType().name() != null ? pix.getPixType().name() : "",
                 pix.getAccount().getAgencyNumber().getValue() ,
                 pix.getAccount().getAccountNumber().getValue(),

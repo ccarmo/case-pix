@@ -4,10 +4,7 @@ import com.pix.poc.domain.entities.Account;
 import com.pix.poc.domain.entities.AccountType;
 import com.pix.poc.domain.entities.Pix;
 import com.pix.poc.domain.entities.PixType;
-import com.pix.poc.domain.vo.AccountNumber;
-import com.pix.poc.domain.vo.AgencyNumber;
-import com.pix.poc.domain.vo.Document;
-import com.pix.poc.domain.vo.PixValue;
+import com.pix.poc.domain.vo.*;
 import com.pix.poc.interactors.database.model.AccountId;
 import com.pix.poc.interactors.database.model.AccountModel;
 import com.pix.poc.interactors.database.model.PixModel;
@@ -30,9 +27,6 @@ class PixMapperTest {
     @InjectMocks
     private PixMapper pixMapper;
 
-
-
-
     private Pix pix;
     private Account account;
     private Document document;
@@ -44,7 +38,7 @@ class PixMapperTest {
     void setUp() {
 
         
-        document = new Document("12345678901");
+        document = new Document("12345678909");
         accountNumber = new AccountNumber(12345);
         agencyNumber = new AgencyNumber(1234);
         pixValue = new PixValue("joao@email.com", PixType.EMAIL);
@@ -59,7 +53,7 @@ class PixMapperTest {
                 .build();
         
         pix = new Pix.Builder()
-                .uniqueID("pix-123")
+                .uniqueID(new PixId("f47ac10b-58cc-4372-a567-0e02b2c3d479"))
                 .account(account)
                 .pixType(PixType.EMAIL)
                 .pixValue(pixValue)
@@ -75,7 +69,7 @@ class PixMapperTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals("pix-123", result.getId());
+        assertEquals("f47ac10b-58cc-4372-a567-0e02b2c3d479", String.valueOf(result.getId()));
         assertEquals("EMAIL", result.getPixType());
         assertEquals("joao@email.com", result.getPixValue());
         assertTrue(result.getActive());
@@ -88,7 +82,7 @@ class PixMapperTest {
         assertEquals("João", accountModel.getName());
         assertEquals("Silva", accountModel.getLastName());
         assertEquals("CORRENTE", accountModel.getAccountType());
-        assertEquals("12345678901", accountModel.getDocumentNumber());
+        assertEquals("12345678909", accountModel.getDocumentNumber());
         
         // Verificar AccountId
         AccountId accountId = accountModel.getId();
@@ -102,10 +96,10 @@ class PixMapperTest {
         // Arrange
         ZonedDateTime inactivationDate = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
         Pix inactivePix = new Pix.Builder()
-                .uniqueID("pix-456")
+                .uniqueID(new PixId("f47ac10b-58cc-4372-a567-0e02b2c3d479"))
                 .account(account)
                 .pixType(PixType.CPF)
-                .pixValue(new PixValue("12345678901", PixType.CPF))
+                .pixValue(new PixValue("12345678909", PixType.CPF))
                 .active(false)
                 .inclusionDate(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")))
                 .inactivationDate(inactivationDate)
@@ -116,9 +110,9 @@ class PixMapperTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals("pix-456", result.getId());
+        assertEquals("f47ac10b-58cc-4372-a567-0e02b2c3d479", String.valueOf(result.getId()));
         assertEquals("CPF", result.getPixType());
-        assertEquals("12345678901", result.getPixValue());
+        assertEquals("12345678909", result.getPixValue());
         assertFalse(result.getActive());
         assertNotNull(result.getInclusionDate());
         assertNotNull(result.getInactivationDate());
@@ -137,7 +131,7 @@ class PixMapperTest {
                 .build();
         
         Pix pixWithoutAccountType = new Pix.Builder()
-                .uniqueID("pix-789")
+                .uniqueID(new PixId("f47ac10b-58cc-4372-a567-0e02b2c3d479"))
                 .account(accountWithoutType)
                 .pixType(PixType.EMAIL)
                 .pixValue(pixValue)
@@ -150,7 +144,7 @@ class PixMapperTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals("pix-789", result.getId());
+        assertEquals("f47ac10b-58cc-4372-a567-0e02b2c3d479", result.getId());
         
         AccountModel accountModel = result.getAccount();
         assertNotNull(accountModel);
@@ -161,7 +155,7 @@ class PixMapperTest {
     void toModel_DeveConverterPixComDiferentesTipos_QuandoPixTypeDiferente() {
         // Arrange
         Pix pixCelular = new Pix.Builder()
-                .uniqueID("pix-celular")
+                .uniqueID(new PixId("f47ac10b-58cc-4372-a567-0e02b2c3d479"))
                 .account(account)
                 .pixType(PixType.CELULAR)
                 .pixValue(new PixValue("11987654321", PixType.CELULAR))
@@ -174,7 +168,7 @@ class PixMapperTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals("pix-celular", result.getId());
+        assertEquals("f47ac10b-58cc-4372-a567-0e02b2c3d479", result.getId());
         assertEquals("CELULAR", result.getPixType());
         assertEquals("11987654321", result.getPixValue());
     }
@@ -188,12 +182,12 @@ class PixMapperTest {
                 "CORRENTE",
                 "João",
                 "Silva",
-                "12345678901"
+                "12345678909"
         );
         
         Instant inclusionDate = Instant.now();
         PixModel pixModel = new PixModel(
-                "pix-123",
+                "f47ac10b-58cc-4372-a567-0e02b2c3d479",
                 "EMAIL",
                 "joao@email.com",
                 accountModel,
@@ -207,7 +201,7 @@ class PixMapperTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals("pix-123", result.getUniqueID());
+        assertEquals("f47ac10b-58cc-4372-a567-0e02b2c3d479", result.getUniqueID().value());
         assertEquals(PixType.EMAIL, result.getPixType());
         assertEquals("joao@email.com", result.getPixValue().getValue());
         assertTrue(result.isActive());
@@ -220,7 +214,7 @@ class PixMapperTest {
         assertEquals("João", resultAccount.getName());
         assertEquals("Silva", resultAccount.getLastName());
         assertEquals(AccountType.CORRENTE, resultAccount.getAccountType());
-        assertEquals("12345678901", resultAccount.getDocument().getValue());
+        assertEquals("12345678909", resultAccount.getDocument().getValue());
         assertEquals(12345, resultAccount.getAccountNumber().getValue());
         assertEquals(1234, resultAccount.getAgencyNumber().getValue());
     }
@@ -234,15 +228,15 @@ class PixMapperTest {
                 "POUPANCA",
                 "Maria",
                 "Santos",
-                "98765432100"
+                "12345678909"
         );
         
         Instant inclusionDate = Instant.now();
         Instant inactivationDate = Instant.now();
         PixModel pixModel = new PixModel(
-                "pix-456",
+                "f47ac10b-58cc-4372-a567-0e02b2c3d479",
                 "CPF",
-                "98765432100",
+                "12345678909",
                 accountModel,
                 inclusionDate,
                 inactivationDate,
@@ -254,9 +248,9 @@ class PixMapperTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals("pix-456", result.getUniqueID());
+        assertEquals("f47ac10b-58cc-4372-a567-0e02b2c3d479", result.getUniqueID().value());
         assertEquals(PixType.CPF, result.getPixType());
-        assertEquals("98765432100", result.getPixValue().getValue());
+        assertEquals("12345678909", result.getPixValue().getValue());
         assertFalse(result.isActive());
         assertNotNull(result.getInclusionDate());
         assertNotNull(result.getInactivationDate());
@@ -278,12 +272,12 @@ class PixMapperTest {
                 null,
                 "João",
                 "Silva",
-                "12345678901"
+                "12345678909"
         );
         
         Instant inclusionDate = Instant.now();
         PixModel pixModel = new PixModel(
-                "pix-789",
+                "f47ac10b-58cc-4372-a567-0e02b2c3d479",
                 "ALEATORIO",
                 "random123",
                 accountModel,
@@ -297,7 +291,7 @@ class PixMapperTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals("pix-789", result.getUniqueID());
+        assertEquals("f47ac10b-58cc-4372-a567-0e02b2c3d479", result.getUniqueID().value());
         assertEquals(PixType.ALEATORIO, result.getPixType());
         
         // Verificar Account
@@ -315,14 +309,14 @@ class PixMapperTest {
                 "CORRENTE",
                 "João",
                 "Silva",
-                "12345678901"
+                "12345678909"
         );
         
         Instant inclusionDate = Instant.now();
         PixModel pixModel = new PixModel(
-                "pix-cnpj",
+                "f47ac10b-58cc-4372-a567-0e02b2c3d479",
                 "CNPJ",
-                "12345678000199",
+                "04252011000110",
                 accountModel,
                 inclusionDate,
                 null,
@@ -334,9 +328,9 @@ class PixMapperTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals("pix-cnpj", result.getUniqueID());
+        assertEquals("f47ac10b-58cc-4372-a567-0e02b2c3d479", result.getUniqueID().value());
         assertEquals(PixType.CNPJ, result.getPixType());
-        assertEquals("12345678000199", result.getPixValue().getValue());
+        assertEquals("04252011000110", result.getPixValue().getValue());
     }
 
 
@@ -353,7 +347,7 @@ class PixMapperTest {
                 .build();
         
         Pix pixPoupanca = new Pix.Builder()
-                .uniqueID("pix-poupanca")
+                .uniqueID(new PixId("f47ac10b-58cc-4372-a567-0e02b2c3d479"))
                 .account(accountPoupanca)
                 .pixType(PixType.EMAIL)
                 .pixValue(pixValue)
@@ -366,7 +360,7 @@ class PixMapperTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals("pix-poupanca", result.getId());
+        assertEquals("f47ac10b-58cc-4372-a567-0e02b2c3d479", result.getId());
         
         AccountModel accountModel = result.getAccount();
         assertNotNull(accountModel);
@@ -382,12 +376,12 @@ class PixMapperTest {
                 "POUPANCA",
                 "João",
                 "Silva",
-                "12345678901"
+                "12345678909"
         );
         
         Instant inclusionDate = Instant.now();
         PixModel pixModel = new PixModel(
-                "pix-poupanca",
+                "f47ac10b-58cc-4372-a567-0e02b2c3d479",
                 "EMAIL",
                 "joao@email.com",
                 accountModel,
@@ -401,7 +395,7 @@ class PixMapperTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals("pix-poupanca", result.getUniqueID());
+        assertEquals("f47ac10b-58cc-4372-a567-0e02b2c3d479", result.getUniqueID().value());
         
         Account resultAccount = result.getAccount();
         assertNotNull(resultAccount);
