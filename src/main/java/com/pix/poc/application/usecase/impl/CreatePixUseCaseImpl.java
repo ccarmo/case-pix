@@ -10,10 +10,7 @@ import com.pix.poc.domain.exception.InvalidMaxValueCpfException;
 import com.pix.poc.domain.exception.InvalidPixValueException;
 import com.pix.poc.domain.repository.AccountRepository;
 import com.pix.poc.domain.repository.PixRepository;
-import com.pix.poc.domain.vo.AccountNumber;
-import com.pix.poc.domain.vo.AgencyNumber;
-import com.pix.poc.domain.vo.Document;
-import com.pix.poc.domain.vo.PixValue;
+import com.pix.poc.domain.vo.*;
 import com.pix.poc.interactors.web.dto.request.CreatePixRequest;
 import com.pix.poc.interactors.web.dto.response.SavePixResponse;
 import org.springframework.stereotype.Service;
@@ -40,6 +37,13 @@ public class CreatePixUseCaseImpl implements CreatePixUseCase {
     @Override
     public SavePixResponse createPix(CreatePixRequest createPixRequest) {
 
+        Name name = new Name(createPixRequest.nameClient());
+        LastName lastName = new LastName(createPixRequest.lastNameClient());
+        Document document = new Document(createPixRequest.documentNumber());
+        AccountType accountType  = AccountType.valueOfOrThrow(createPixRequest.accountType());
+        AccountNumber accountNumber = new AccountNumber(createPixRequest.accountNumber());
+        AgencyNumber agencyNumber = new AgencyNumber(createPixRequest.agencyNumber());
+
         PixType pixTypeDomain = PixType.fromString(createPixRequest.pixType());
         PixValue pixValueDomain = new PixValue(createPixRequest.pixValue(), pixTypeDomain);
 
@@ -47,7 +51,7 @@ public class CreatePixUseCaseImpl implements CreatePixUseCase {
             throw new InvalidPixValueException("Pix já cadastrado.");
         }
 
-        Document document = new Document(createPixRequest.documentNumber());
+
         List<Account> accountList = accountRepository.getAccountsByDocument(document);
 
         Long count = pixRepository.countPixByAccounts(accountList);
@@ -77,11 +81,15 @@ public class CreatePixUseCaseImpl implements CreatePixUseCase {
             throw new InvalidMaxValueCnpjException("Cliente possui mais de 20 pix cadastros para pessoa jurídica");
         }
 
+
+
         Account account = new Account.Builder()
                 .document(document)
-                .accountType(AccountType.valueOfOrThrow(createPixRequest.accountType()))
-                .accountNumber(new AccountNumber(createPixRequest.accountNumber()))
-                .agencyNumber(new AgencyNumber(createPixRequest.agencyNumber()))
+                .name(name.value())
+                .lastName(lastName.value())
+                .accountType(accountType)
+                .accountNumber(accountNumber)
+                .agencyNumber(agencyNumber)
                 .build();
 
 

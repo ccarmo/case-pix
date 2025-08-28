@@ -1,6 +1,6 @@
 package com.pix.poc.domain.vo;
 
-import com.pix.poc.domain.exception.InvalidLengthAccountNumberException;
+import com.pix.poc.domain.exception.InvalidAccountNumberException;
 
 
 public class AccountNumber {
@@ -9,12 +9,12 @@ public class AccountNumber {
 
     public AccountNumber(Integer value) {
         if (value == null) {
-            throw new InvalidLengthAccountNumberException("Número de conta inválido. Nao pode ser nulo");
+            throw new InvalidAccountNumberException("Número de conta inválido. Nao pode ser nulo");
         }
 
         String valueAsString = String.valueOf(value);
         if (valueAsString.length() > 8) {
-            throw new InvalidLengthAccountNumberException("Número de conta inválido. Máximo de 8 caracteres");
+            throw new InvalidAccountNumberException("Número de conta inválido. Máximo de 8 caracteres");
         }
         this.value = value;
     }
