@@ -5,9 +5,14 @@ Este projeto é uma Prova de Conceito (POC) para gerenciamento de chaves Pix, de
 ## Estrutura do Projeto
 
 - `src/main/java/com/pix/poc/`: Código-fonte principal
-- `src/test/java/com/pix/poc/`: Testes unitários e de integração
 - `src/main/resources/`: Configurações e scripts de banco de dados
 - `docker-compose.yml`: Orquestração de containers para infraestrutura local
+- `pom.xml`: Gerenciamento de dependências com Maven
+- `src/test/java/com/pix/poc/`: Testes unitários e de integração
+- `README.md`: Documentação do projeto
+- `.gitignore`: Arquivos e pastas a serem ignorados pelo Git
+- `application.properties`: Configurações da aplicação
+
 
 ## Banco de Dados
 
@@ -22,6 +27,11 @@ Este projeto é uma Prova de Conceito (POC) para gerenciamento de chaves Pix, de
 - Java 21+
 - Maven 3.8+
 - Docker e Docker Compose
+- Git
+- Postman ou qualquer cliente REST para testar a API
+- IDE de sua preferência (IntelliJ, Eclipse, VSCode, etc.)
+- cURL (opcional, para testes via linha de comando)
+- PostgreSQL
 
 ### Build do projeto
 
@@ -50,6 +60,5 @@ mvn test
 ## Funcionalidades
 
 - Cadastro, consulta, atualização e remoção de chaves Pix
-- Validações de CPF, CNPJ, e-mail e telefone
-- API RESTful
+- Validação de chaves Pix (CPF, CNPJ, e-mail, telefone, chave aleatória)
 
