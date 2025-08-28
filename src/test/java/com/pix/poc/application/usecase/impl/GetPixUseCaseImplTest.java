@@ -40,7 +40,7 @@ class GetPixUseCaseImplTest {
     void getPix_DeveRetornarListaQuandoPixExistir() {
         // Arrange
         PixFilterRequest request = new PixFilterRequest(
-                "123",
+                "f47ac10b-58cc-4372-a567-0e02b2c3d479",
                 "CPF",
                 1234,
                 567890,
@@ -60,8 +60,8 @@ class GetPixUseCaseImplTest {
 
         Pix pix = new Pix.Builder()
                 .uniqueID(new PixId("f47ac10b-58cc-4372-a567-0e02b2c3d479"))
-                .pixType(PixType.CPF)
-                .pixValue(new PixValue("12345678909", PixType.CELULAR))
+                .pixType(PixType.CELULAR)
+                .pixValue(new PixValue("+12345678909", PixType.CELULAR))
                 .account(account)
                 .inclusionDate(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")))
                 .build();
@@ -76,7 +76,7 @@ class GetPixUseCaseImplTest {
         // Assert
         assertNotNull(response);
         assertFalse(response.isEmpty());
-        verify(validatePixUseCase, times(1)).validatePix("123");
+        verify(validatePixUseCase, times(1)).validatePix("f47ac10b-58cc-4372-a567-0e02b2c3d479");
         verify(pixRepository, times(1)).get(
                 anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString(), any(), any()
         );

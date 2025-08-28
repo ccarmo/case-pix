@@ -2,14 +2,9 @@ package com.pix.poc.application.usecase.impl;
 
 import com.pix.poc.application.usecase.GetPixUseCase;
 import com.pix.poc.application.usecase.ValidatePixUseCase;
-import com.pix.poc.domain.entities.Account;
-import com.pix.poc.domain.entities.AccountType;
 import com.pix.poc.domain.entities.Pix;
-import com.pix.poc.domain.entities.PixType;
 import com.pix.poc.domain.exception.PixNotFoundException;
 import com.pix.poc.domain.repository.PixRepository;
-import com.pix.poc.domain.vo.AccountNumber;
-import com.pix.poc.domain.vo.AgencyNumber;
 import com.pix.poc.interactors.web.dto.request.PixFilterRequest;
 import com.pix.poc.interactors.web.dto.response.GetPixResponse;
 import org.springframework.stereotype.Service;

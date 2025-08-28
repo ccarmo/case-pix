@@ -158,7 +158,7 @@ class PixMapperTest {
                 .uniqueID(new PixId("f47ac10b-58cc-4372-a567-0e02b2c3d479"))
                 .account(account)
                 .pixType(PixType.CELULAR)
-                .pixValue(new PixValue("11987654321", PixType.CELULAR))
+                .pixValue(new PixValue("+1155987654321", PixType.CELULAR))
                 .active(true)
                 .inclusionDate(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")))
                 .build();
@@ -170,7 +170,7 @@ class PixMapperTest {
         assertNotNull(result);
         assertEquals("f47ac10b-58cc-4372-a567-0e02b2c3d479", result.getId());
         assertEquals("CELULAR", result.getPixType());
-        assertEquals("11987654321", result.getPixValue());
+        assertEquals("+1155987654321", result.getPixValue());
     }
 
     @Test
@@ -279,17 +279,17 @@ class PixMapperTest {
         PixModel pixModel = new PixModel(
                 "f47ac10b-58cc-4372-a567-0e02b2c3d479",
                 "ALEATORIO",
-                "random123",
+                "f47ac10b-58cc-4372-a567-0e02b2c3d479",
                 accountModel,
                 inclusionDate,
                 null,
                 true
         );
 
-        // Act
+
         Pix result = pixMapper.toDomain(pixModel);
 
-        // Assert
+
         assertNotNull(result);
         assertEquals("f47ac10b-58cc-4372-a567-0e02b2c3d479", result.getUniqueID().value());
         assertEquals(PixType.ALEATORIO, result.getPixType());

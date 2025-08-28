@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.UUID;
+
 
 @Service
 public class CreatePixUseCaseImpl implements CreatePixUseCase {
@@ -37,7 +37,7 @@ public class CreatePixUseCaseImpl implements CreatePixUseCase {
     @Override
     public SavePixResponse createPix(CreatePixRequest createPixRequest) {
 
-        PixType pixTypeDomain = PixType.valueOf(createPixRequest.pixType());
+        PixType pixTypeDomain = PixType.fromString(createPixRequest.pixType());
         PixValue pixValueDomain = new PixValue(createPixRequest.pixValue(), pixTypeDomain);
 
         if(pixRepository.existsByPixValue(pixValueDomain.getValue())) {

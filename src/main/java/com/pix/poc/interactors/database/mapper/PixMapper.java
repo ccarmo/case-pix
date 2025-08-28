@@ -62,8 +62,8 @@ public class PixMapper {
                 .account(account)
                 .inactivationDate(Objects.nonNull(model.getInactivationDate()) ?  model.getInactivationDate().atZone(ZoneId.of("America/Sao_Paulo")) : null)
                 .inclusionDate(Objects.nonNull(model.getInclusionDate()) ? model.getInclusionDate().atZone(ZoneId.of("America/Sao_Paulo")) : null)
-                .pixType(PixType.valueOf(model.getPixType()))
-                .pixValue(new PixValue(model.getPixValue(), PixType.valueOf(model.getPixType())))
+                .pixType(PixType.fromString(model.getPixType()))
+                .pixValue(new PixValue(model.getPixValue(), PixType.fromString(model.getPixType())))
                 .active(model.getActive())
                 .build();
     }
