@@ -31,12 +31,43 @@ public class AccountModel {
         this.documentNumber = documentNumber;
     }
 
-    public AccountId getId() { return id; }
-    public String getAccountType() { return accountType; }
-    public String getName() { return name; }
-    public String getLastName() { return lastName; }
+    public AccountId getId() {
+        return id;
+    }
+
+    public void setId(AccountId id) {
+        this.id = id;
+    }
 
     public String getDocumentNumber() {
         return documentNumber;
+    }
+
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
     }
 }

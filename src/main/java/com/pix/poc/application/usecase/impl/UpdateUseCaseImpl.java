@@ -36,13 +36,24 @@ public class UpdateUseCaseImpl implements UpdateUseCase {
     @Override
     @Transactional
     public UpdatePixResponse changePix(UpdatePixRequest updatePixRequest) {
+
         Pix pix = validatePixUseCase.validatePix(updatePixRequest.id());
         AccountNumber accountNumber = new AccountNumber(updatePixRequest.accountNumber());
         AgencyNumber agencyNumber = new AgencyNumber(updatePixRequest.agencyNumber());
         Account account = validateAccountPixUseCase.validateAccount(accountNumber, agencyNumber);
-        pix.changeAccount(account);
-        pixRepository.save(pix);
-        return UpdatePixResponse.fromUpdatePixRequest(pix.getUniqueID().value(), account);
+
+        Account newAccount = new Account(
+                account.getDocument(),
+                updatePixRequest.nameClient(),
+                updatePixRequest.lastNameClient(),
+                new AgencyNumber(updatePixRequest.agencyNumber()),
+                new AccountNumber(updatePixRequest.accountNumber()),
+                AccountType.valueOf(updatePixRequest.accountType())
+        );
+
+        Pix newPix =  pixRepository.updatePix(newAccount, pix);
+
+        return UpdatePixResponse.fromUpdatePixRequest(newPix.getUniqueID().value(), account);
 
     }
 }

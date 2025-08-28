@@ -33,6 +33,7 @@ public interface PixRepository {
     Long countPixByAccounts(List<Account> accounts);
     Optional<Pix> findById(String id);
     Boolean existsByPixValue(String pixValue);
+    Pix updatePix(Account account, Pix pix);
 
 
 

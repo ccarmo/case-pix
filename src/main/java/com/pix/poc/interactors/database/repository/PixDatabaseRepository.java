@@ -12,13 +12,12 @@ import com.pix.poc.interactors.database.model.AccountModel;
 import com.pix.poc.interactors.database.model.PixModel;
 
 import jakarta.persistence.criteria.Expression;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
+
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
+
 import java.time.LocalDate;
-import java.time.ZoneOffset;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -28,13 +27,18 @@ import java.util.Optional;
 public class PixDatabaseRepository implements PixRepository {
 
     PixJpaRepository pixJpaRepository;
+    AccountJpaRepository accountJpaRepository;
     AccountMapper accountMapper;
     PixMapper pixMapper;
 
-    public PixDatabaseRepository(PixJpaRepository pixJpaRepository, PixMapper pixMapper, AccountMapper accountMapper) {
+    public PixDatabaseRepository(PixJpaRepository pixJpaRepository,
+                                 PixMapper pixMapper,
+                                 AccountMapper accountMapper,
+                                 AccountJpaRepository accountJpaRepository) {
         this.pixJpaRepository = pixJpaRepository;
         this.accountMapper = accountMapper;
         this.pixMapper = pixMapper;
+        this.accountJpaRepository = accountJpaRepository;
     }
 
     @Override
@@ -159,7 +163,32 @@ public class PixDatabaseRepository implements PixRepository {
         return pixJpaRepository.existsByPixValue(pixValue);
     }
 
+    @Override
+    public Pix updatePix(Account account, Pix pix) {
 
+        AccountModel accountModel = accountJpaRepository.findById(new AccountId(
+                account.getAccountNumber().getValue(),
+                account.getAgencyNumber().getValue()
+        )).orElseThrow(() -> new IllegalArgumentException("Conta não encontrada"));
+
+
+        accountModel.setName(account.getName());
+        accountModel.setLastName(account.getLastName());
+        accountModel.setAccountType(account.getAccountType().name());
+
+
+        accountJpaRepository.save(accountModel);
+
+
+        PixModel pixModel = pixJpaRepository.findById(pix.getUniqueID().value())
+                .orElseThrow(() -> new IllegalArgumentException("Pix não encontrado"));
+
+        pixModel.setAccount(accountModel);
+
+        pixJpaRepository.save(pixModel);
+
+        return pixMapper.toDomain(pixModel);
+    }
 
 
 }
