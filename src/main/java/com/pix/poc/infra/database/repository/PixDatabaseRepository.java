@@ -130,7 +130,6 @@ public class PixDatabaseRepository implements PixRepository {
                 return predicates;
             });
 
-            // Mapeia para domínio
             return listPixModel.stream()
                     .map(pixMapper::toDomain)
                     .toList();
