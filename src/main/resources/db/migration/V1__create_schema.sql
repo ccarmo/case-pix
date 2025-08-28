@@ -22,14 +22,12 @@ CREATE TABLE pix (
         REFERENCES account (account_number, agency_number),
     CONSTRAINT uq_pix_value UNIQUE (pix_value)
 );
-
--- Contas
+-- Inserindo dados iniciais na tabela Account
 INSERT INTO account (account_number, agency_number, account_type, name, last_name, document_number)
 VALUES
 (00000001, 1234, 'CORRENTE', 'Carlos', 'Carmo', '41899204873'), -- CPF
 (00000002, 5678, 'POUPANCA', 'Maria', 'Julia', '12345678909'); -- CPF
 
--- Pix (para conta de Carlos, com mais de 5 PIX)
 INSERT INTO pix (id, pix_type, pix_value, account_number, agency_number, inclusion_date, inactivation_date, is_active)
 VALUES
 ('11111111-0000-0000-0000-000000000001', 'CPF', '12345678909', 1, 1234, '2025-08-26 00:00:00', NULL, TRUE),
@@ -39,7 +37,7 @@ VALUES
 ('11111111-0000-0000-0000-000000000005', 'CNPJ', '04252011000110', 1, 1234, '2025-08-26 00:00:00', NULL, TRUE),
 ('11111111-0000-0000-0000-000000000006', 'EMAIL', 'outra-chave@email.com', 1, 1234, '2025-08-26 00:00:00', NULL, TRUE);
 
--- Pix (para conta da Maria, apenas 1 exemplo)
+
 INSERT INTO pix (id, pix_type, pix_value, account_number, agency_number, inclusion_date, inactivation_date, is_active)
 VALUES
 ('22222222-0000-0000-0000-000000000001', 'EMAIL', 'maria@email.com', 2, 5678, '2025-08-26 00:00:00', NULL, TRUE);
