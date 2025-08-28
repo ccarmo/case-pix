@@ -26,13 +26,13 @@ CREATE TABLE pix (
 -- Contas
 INSERT INTO account (account_number, agency_number, account_type, name, last_name, document_number)
 VALUES
-(00000001, 1234, 'CORRENTE', 'Carlos', 'Carmo', '12345678901'), -- CPF
-(00000002, 5678, 'POUPANCA', 'Maria', 'Julia', '98765432100'); -- CPF
+(00000001, 1234, 'CORRENTE', 'Carlos', 'Carmo', '41899204873'), -- CPF
+(00000002, 5678, 'POUPANCA', 'Maria', 'Julia', '12345678909'); -- CPF
 
 -- Pix (para conta de Carlos, com mais de 5 PIX)
 INSERT INTO pix (id, pix_type, pix_value, account_number, agency_number, inclusion_date, inactivation_date, is_active)
 VALUES
-('11111111-0000-0000-0000-000000000001', 'CPF', '12345678901', 1, 1234, '2025-08-26 00:00:00', NULL, TRUE),
+('11111111-0000-0000-0000-000000000001', 'CPF', '12345678909', 1, 1234, '2025-08-26 00:00:00', NULL, TRUE),
 ('11111111-0000-0000-0000-000000000002', 'EMAIL', 'carlos@email.com', 1, 1234, '2025-08-26 00:00:00', NULL, TRUE),
 ('11111111-0000-0000-0000-000000000003', 'CELULAR', '+5511999999999', 1, 1234, '2025-08-26 00:00:00', NULL, TRUE),
 ('11111111-0000-0000-0000-000000000004', 'ALEATORIO', 'a1b2c3d4e5f6g7h8i9j0', 1, 1234, '2025-08-26 00:00:00', NULL, TRUE),

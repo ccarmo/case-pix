@@ -22,7 +22,7 @@ public class PixModel {
     @Column(name = "is_active", nullable = false)
     private Boolean active;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumns({
             @JoinColumn(name = "account_number", referencedColumnName = "account_number"),
             @JoinColumn(name = "agency_number", referencedColumnName = "agency_number")
@@ -48,13 +48,59 @@ public class PixModel {
         this.active = active;
     }
 
-    public String getId() { return id; }
-    public String getPixType() { return pixType; }
-    public String getPixValue() { return pixValue; }
-    public AccountModel getAccount() { return account; }
-    public Instant getInclusionDate() { return inclusionDate; }
-    public Instant getInactivationDate() { return inactivationDate; }
-    public Boolean getActive() { return active; }
-    public void setAccount(AccountModel account) { this.account = account; }
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Instant getInactivationDate() {
+        return inactivationDate;
+    }
+
+    public void setInactivationDate(Instant inactivationDate) {
+        this.inactivationDate = inactivationDate;
+    }
+
+    public Instant getInclusionDate() {
+        return inclusionDate;
+    }
+
+    public void setInclusionDate(Instant inclusionDate) {
+        this.inclusionDate = inclusionDate;
+    }
+
+    public AccountModel getAccount() {
+        return account;
+    }
+
+    public void setAccount(AccountModel account) {
+        this.account = account;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public String getPixValue() {
+        return pixValue;
+    }
+
+    public void setPixValue(String pixValue) {
+        this.pixValue = pixValue;
+    }
+
+    public String getPixType() {
+        return pixType;
+    }
+
+    public void setPixType(String pixType) {
+        this.pixType = pixType;
+    }
 }

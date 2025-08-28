@@ -24,7 +24,6 @@ public class GetPixUseCaseImpl implements GetPixUseCase {
 
     @Override
     public List<GetPixResponse> getPix(PixFilterRequest pixFilterRequest) {
-        validatePixUseCase.validatePix(pixFilterRequest.getId());
        List<Pix>  listPix = pixRepository.get(
                pixFilterRequest.getId(),
                pixFilterRequest.getPixType(),

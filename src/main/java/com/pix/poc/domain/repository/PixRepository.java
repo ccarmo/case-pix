@@ -21,6 +21,15 @@ public interface PixRepository {
                   LocalDate inclusionDate,
                   LocalDate inactivationDate
     );
+
+    List<Pix> findByDynamicFilter(
+            String pixType,
+            Integer agencyNumber,
+            Integer accountNumber,
+            String accountHolderName,
+            LocalDate inclusionDate,
+            LocalDate inactivationDate
+    );
     Long countPixByAccounts(List<Account> accounts);
     Optional<Pix> findById(String id);
     Boolean existsByPixValue(String pixValue);
